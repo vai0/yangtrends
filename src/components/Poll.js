@@ -1,0 +1,110 @@
+import React from "react";
+import styled from "@emotion/styled";
+
+import Icon from "src/components/Icon";
+
+import { formatDateRange } from "src/util";
+import colors from "src/colors";
+
+import { below } from "src/styles";
+
+const roundOne = num => Math.round(parseFloat(num) * 10) / 10;
+
+const S = {};
+S.Poll = styled.div`
+    font-family: Roboto;
+    width: 239px;
+    padding: 20px;
+    border: 1px solid transparent;
+    color: ${({ qualifying }) =>
+        qualifying ? colors.grey900 : colors.grey500};
+
+    &:hover {
+        color: ${colors.grey900};
+        border: 1px solid ${colors.grey200};
+    }
+`;
+
+S.Header = styled.div`
+    display: flex;
+    align-content: center;
+    font-size: 32px;
+    font-family: Merriweather, serif;
+    margin-bottom: 5px;
+
+    ${below("mobile")} {
+        font-size: 24px;
+    }
+`;
+
+S.Percent = styled.div`
+    font-weight: 900;
+`;
+
+S.Check = styled.div`
+    display: flex;
+    align-items: center;
+    margin-left: 0.5em;
+`;
+
+S.Info = styled.div`
+    line-height: 1.5;
+`;
+
+S.State = styled.div`
+    font-size: 18px;
+    font-weight: 700;
+`;
+
+S.SubInfo = styled.div`
+    font-size: 14px;
+`;
+
+S.Official = styled.div`
+    color: ${colors.blue};
+    font-weight: 700;
+`;
+
+S.Unofficial = styled.div`
+    font-weight: 700;
+`;
+
+const Poll = ({
+    startDate,
+    endDate,
+    pct,
+    state,
+    pollsterName,
+    sponsors,
+    qualifying,
+    official,
+}) => {
+    return (
+        <S.Poll qualifying={qualifying}>
+            <S.Header>
+                <S.Percent>{roundOne(pct)}% </S.Percent>
+                {qualifying && (
+                    <S.Check>
+                        <Icon name="check-circle" color={colors.green} />
+                    </S.Check>
+                )}
+            </S.Header>
+            <S.Info>
+                <S.State>{state || "National"}</S.State>
+                <S.SubInfo>
+                    {official ? (
+                        <S.Official>official</S.Official>
+                    ) : (
+                        <S.Unofficial>unofficial</S.Unofficial>
+                    )}
+                    <div>{formatDateRange(startDate, endDate, "M/D/YY")}</div>
+                    <div>{`${sponsors} ${sponsors &&
+                        pollsterName &&
+                        `—`} ${pollsterName}`}</div>
+                </S.SubInfo>
+            </S.Info>
+        </S.Poll>
+    );
+};
+
+export default Poll;
