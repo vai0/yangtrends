@@ -183,21 +183,21 @@ const MentionsTable = ({ allCable, caption }) => {
                 columns: [
                     {
                         Header: formatDateShort(TWO_WEEKS_AGO),
-                        accessor: "twoM",
+                        accessor: "two",
                     },
                     {
                         Header: formatDateShort(ONE_WEEK_AGO),
-                        accessor: "oneM",
+                        accessor: "one",
                     },
                 ],
             },
             {
                 Header: "",
-                id: "diffM",
+                id: "diff",
                 columns: [
                     {
                         Header: "Diff",
-                        accessor: "diffM",
+                        accessor: "diff",
                     },
                 ],
             },
@@ -207,33 +207,37 @@ const MentionsTable = ({ allCable, caption }) => {
 
     const data = React.useMemo(
         () =>
-            _.keys(CANDIDATES).map(cand => {
-                const { name } = CANDIDATES[cand];
-                const twoM = getCableCount({
-                    all: allCable.nodes,
-                    cand,
-                    fromDate: TWO_WEEKS_AGO,
-                    toDate: ONE_WEEK_AGO,
-                });
-                const oneM = getCableCount({
-                    all: allCable.nodes,
-                    cand,
-                    fromDate: ONE_WEEK_AGO,
-                    toDate: NOW,
-                });
-                const diffM = {
-                    total: oneM.total - twoM.total,
-                    main: oneM.main - twoM.main,
-                    other: oneM.other - twoM.other,
-                };
+            _(CANDIDATES)
+                .keys()
+                .map(cand => {
+                    const { name } = CANDIDATES[cand];
+                    const two = getCableCount({
+                        all: allCable.nodes,
+                        cand,
+                        fromDate: TWO_WEEKS_AGO,
+                        toDate: ONE_WEEK_AGO,
+                    });
+                    const one = getCableCount({
+                        all: allCable.nodes,
+                        cand,
+                        fromDate: ONE_WEEK_AGO,
+                        toDate: NOW,
+                    });
+                    const diff = {
+                        total: one.total - two.total,
+                        main: one.main - two.main,
+                        other: one.other - two.other,
+                    };
 
-                return {
-                    candidate: name,
-                    twoM: twoM.main,
-                    oneM: oneM.main,
-                    diffM: diffM.main,
-                };
-            }),
+                    return {
+                        candidate: name,
+                        two: two.main,
+                        one: one.main,
+                        diff: diff.main,
+                    };
+                })
+                .orderBy(["one"], ["desc"])
+                .value(),
         []
     );
 
@@ -280,29 +284,33 @@ const MentionsPerStationTable = ({ allCable, caption }) => {
 
     const data = React.useMemo(
         () =>
-            _.keys(CABLE_SOURCES).map(source => {
-                const { name } = CABLE_SOURCES[source];
-                const two = getMentionsPerStation({
-                    all: allCable.nodes,
-                    source,
-                    fromDate: TWO_WEEKS_AGO,
-                    toDate: ONE_WEEK_AGO,
-                });
-                const one = getMentionsPerStation({
-                    all: allCable.nodes,
-                    source,
-                    fromDate: ONE_WEEK_AGO,
-                    toDate: NOW,
-                });
-                const diff = one - two;
+            _(CABLE_SOURCES)
+                .keys()
+                .map(source => {
+                    const { name } = CABLE_SOURCES[source];
+                    const two = getMentionsPerStation({
+                        all: allCable.nodes,
+                        source,
+                        fromDate: TWO_WEEKS_AGO,
+                        toDate: ONE_WEEK_AGO,
+                    });
+                    const one = getMentionsPerStation({
+                        all: allCable.nodes,
+                        source,
+                        fromDate: ONE_WEEK_AGO,
+                        toDate: NOW,
+                    });
+                    const diff = one - two;
 
-                return {
-                    source: name,
-                    two,
-                    one,
-                    diff,
-                };
-            }),
+                    return {
+                        source: name,
+                        two,
+                        one,
+                        diff,
+                    };
+                })
+                .orderBy(["one"], ["desc"])
+                .value(),
         []
     );
 
@@ -330,21 +338,21 @@ const ArticlesTable = ({ allArticles, caption }) => {
                 columns: [
                     {
                         Header: formatDateShort(TWO_WEEKS_AGO),
-                        accessor: "twoD",
+                        accessor: "two",
                     },
                     {
                         Header: formatDateShort(ONE_WEEK_AGO),
-                        accessor: "oneD",
+                        accessor: "one",
                     },
                 ],
             },
             {
                 Header: "",
-                id: "diffD",
+                id: "diff",
                 columns: [
                     {
                         Header: "Diff",
-                        accessor: "diffD",
+                        accessor: "diff",
                     },
                 ],
             },
@@ -354,30 +362,34 @@ const ArticlesTable = ({ allArticles, caption }) => {
 
     const data = React.useMemo(
         () =>
-            _.keys(CANDIDATES).map(cand => {
-                const { name } = CANDIDATES[cand];
+            _(CANDIDATES)
+                .keys()
+                .map(cand => {
+                    const { name } = CANDIDATES[cand];
 
-                const twoD = getDigitalCount({
-                    all: allArticles.nodes,
-                    cand,
-                    fromDate: TWO_WEEKS_AGO,
-                    toDate: ONE_WEEK_AGO,
-                });
-                const oneD = getDigitalCount({
-                    all: allArticles.nodes,
-                    cand,
-                    fromDate: TWO_WEEKS_AGO,
-                    toDate: ONE_WEEK_AGO,
-                });
-                const diffD = oneD - twoD;
+                    const two = getDigitalCount({
+                        all: allArticles.nodes,
+                        cand,
+                        fromDate: TWO_WEEKS_AGO,
+                        toDate: ONE_WEEK_AGO,
+                    });
+                    const one = getDigitalCount({
+                        all: allArticles.nodes,
+                        cand,
+                        fromDate: TWO_WEEKS_AGO,
+                        toDate: ONE_WEEK_AGO,
+                    });
+                    const diff = one - two;
 
-                return {
-                    candidate: name,
-                    twoD,
-                    oneD,
-                    diffD,
-                };
-            }),
+                    return {
+                        candidate: name,
+                        two,
+                        one,
+                        diff,
+                    };
+                })
+                .orderBy(["one"], ["desc"])
+                .value(),
         []
     );
 
@@ -389,7 +401,11 @@ const Trends = () => {
         query {
             allCableType {
                 nodes {
-                    ...CableFields
+                    id
+                    candidate
+                    publicdate
+                    title
+                    contributor
                 }
             }
             allArticleType {
@@ -426,7 +442,7 @@ const Trends = () => {
                 <Header type="h2">Trends</Header>
             </Margin>
             <Margin bottom="small">
-                <Header type="h3">Cable TV Clips</Header>
+                <Header type="h3">Cable TV Mentions</Header>
             </Margin>
             <Margin bottom="large">
                 <MentionsTable
@@ -436,13 +452,14 @@ const Trends = () => {
                         <>
                             {cableSourceCaption()}, where "candidates" is
                             replaced with the following for each candidate -{" "}
-                            {candidateQueries}
+                            {candidateQueries}. The results only include the
+                            following sources: {CABLE_SOURCE_IDS.join(", ")}
                         </>
                     }
                 />
             </Margin>
             <Margin bottom="small">
-                <Header type="h3">Clips per Station with Yang</Header>
+                <Header type="h3">Mentions per Station of Yang</Header>
             </Margin>
             <Margin bottom="large">
                 <MentionsPerStationTable

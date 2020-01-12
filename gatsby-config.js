@@ -1,9 +1,10 @@
+const colors = require("src/colors");
+
 module.exports = {
     siteMetadata: {
-        title: "Gatsby Default Starter",
-        description:
-            "Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.",
-        author: "@gatsbyjs",
+        title: "yangtrends",
+        description: "Follow the latest trends for Andrew Yang's presidency",
+        author: "Justin Chi",
     },
     plugins: [
         "gatsby-plugin-root-import",
@@ -21,20 +22,41 @@ module.exports = {
         {
             resolve: "gatsby-plugin-manifest",
             options: {
-                name: "gatsby-starter-default",
-                short_name: "starter",
+                name: "yangtrends",
+                short_name: "yangtrends",
                 start_url: "/",
-                background_color: "#663399",
-                theme_color: "#663399",
+                background_color: colors.blue,
+                theme_color: colors.blue,
                 display: "minimal-ui",
-                icon: "src/images/gatsby-icon.png", // This path is relative to the root of the site.
+                icon: "src/images/favicon-yang.png",
             },
         },
         {
             resolve: "gatsby-plugin-emotion",
         },
-        // this (optional) plugin enables Progressive Web App + Offline functionality
-        // To learn more, visit: https://gatsby.dev/offline
-        // "gatsby-plugin-offline",
+        "gatsby-plugin-offline",
+        {
+            resolve: "gatsby-plugin-google-analytics",
+            options: {
+                trackingId: "UA-94088018-2",
+                head: false,
+                anonymize: true,
+                respectDNT: true,
+                pageTransitionDelay: 0,
+                sampleRate: 5,
+                siteSpeedSampleRate: 10,
+                cookieDomain: "yangtrends.org",
+            },
+        },
+        {
+            resolve: "gatsby-plugin-sentry",
+            options: {
+                dsn:
+                    "https://82f99653a0884b37ac0fd60537dd73b9@sentry.io/1227594",
+                environment: process.env.NODE_ENV,
+                enabled: (() =>
+                    ["production"].includes(process.env.NODE_ENV))(),
+            },
+        },
     ],
 };
