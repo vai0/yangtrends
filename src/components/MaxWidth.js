@@ -16,7 +16,7 @@ const MaxWidth = ({ value, children }) => {
 };
 
 MaxWidth.defaultProps = {
-    value: "500px",
+    value: "350px",
 };
 
 MaxWidth.propTypes = {

@@ -26,7 +26,7 @@ S.TableWrapper = styled.div`
         font-size: 16px;
 
         ${below("mobile")} {
-            font-size: 10px;
+            font-size: 14px;
         }
 
         tr {

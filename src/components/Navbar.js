@@ -5,6 +5,7 @@ import Link from "gatsby-link";
 import colors from "src/colors";
 
 const S = {};
+
 S.Navbar = styled.nav`
     height: 60px;
     background: rgba(255, 255, 255, 0.9);
@@ -26,6 +27,7 @@ S.Logo = styled(Link)`
     font-weight: 700;
     padding: 20px;
     text-decoration: none;
+    color: ${colors.text};
 
     &:visited {
         color: ${colors.text};
@@ -41,7 +43,7 @@ const Navbar = () => {
     return (
         <S.Navbar>
             <S.Group>
-                <S.Logo to="/">yanghub</S.Logo>
+                <S.Logo to="/">yangtrends</S.Logo>
             </S.Group>
             {/* <S.Group>
                 <S.Anchor href="#">Debate Qualification</S.Anchor>

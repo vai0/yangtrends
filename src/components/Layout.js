@@ -43,6 +43,14 @@ const Layout = ({ children }) => {
                         -webkit-font-smoothing: antialiased;
                         font-smoothing: antialiased;
                     }
+
+                    a {
+                        color: ${colors.text};
+
+                        &:visited {
+                            color: ${colors.text};
+                        }
+                    }
                 `}
             />
             <S.Wrapper>

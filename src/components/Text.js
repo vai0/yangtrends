@@ -4,6 +4,7 @@ import styled from "@emotion/styled";
 import { css } from "@emotion/core";
 
 import colors from "src/colors";
+import { below } from "src/styles";
 
 const sharedStyles = () => css`
     line-height: 1.4;
@@ -16,6 +17,10 @@ const Caption = styled.p`
     font-family: Roboto, sans-serif;
     font-size: 12px;
     color: ${colors.grey500};
+
+    ${below("mobile")} {
+        font-size: 10px;
+    }
 `;
 
 const Header = ({ type, children }) => {

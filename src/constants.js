@@ -11,44 +11,54 @@ const POLLSTER_CSV_URL =
     "https://raw.githubusercontent.com/fivethirtyeight/data/master/pollster-ratings/pollster-ratings.csv";
 
 const CANDIDATES = {
-    // bernie: { name: "Bernie Sanders", q: `"bernie sanders"`, fecId: "P60007168", pollId: "13257" },
-    // biden: { name: "Joe Biden", q: `"joe biden"`, fecId: "P80000722", pollId: "13256" },
-    // bloomberg: {
-    //     name: "Mike Bloomberg",
-    //     q: `"mike bloomberg"`,
-    //     fecId: "P00014530",
-    //     pollId: "13289",
-    // },
-    // cory: {
-    //     name: "Cory Booker",
-    //     q: `"cory booker"`,
-    //     fecId: "P00009795",
-    //     pollId: "13287",
-    // },
-    // klobuchar: {
-    //     name: "Amy Klobuchar",
-    //     q: `"amy klobuchar"`,
-    //     fecId: "P80006117",
-    //     pollId: "13310",
-    // },
-    // pete: {
-    //     name: "Pete Buttigieg",
-    //     q: `"buttigieg"`,
-    //     fecId: "P00010298",
-    //     pollId: "13345",
-    // },
-    // steyer: {
-    //     name: "Tom Steyer",
-    //     q: `"tom steyer"`,
-    //     fecId: "P00012716",
-    //     pollId: "13327",
-    // },
-    // warren: {
-    //     name: "Elizabeth Warren",
-    //     q: `"elizabeth warren"`,
-    //     fecId: "P00009621",
-    //     pollId: "13258",
-    // },
+    bernie: {
+        name: "Bernie Sanders",
+        q: `"bernie sanders"`,
+        fecId: "P60007168",
+        pollId: "13257",
+    },
+    biden: {
+        name: "Joe Biden",
+        q: `"joe biden"`,
+        fecId: "P80000722",
+        pollId: "13256",
+    },
+    bloomberg: {
+        name: "Mike Bloomberg",
+        q: `"mike bloomberg"`,
+        fecId: "P00014530",
+        pollId: "13289",
+    },
+    cory: {
+        name: "Cory Booker",
+        q: `"cory booker"`,
+        fecId: "P00009795",
+        pollId: "13287",
+    },
+    klobuchar: {
+        name: "Amy Klobuchar",
+        q: `"amy klobuchar"`,
+        fecId: "P80006117",
+        pollId: "13310",
+    },
+    pete: {
+        name: "Pete Buttigieg",
+        q: `"buttigieg"`,
+        fecId: "P00010298",
+        pollId: "13345",
+    },
+    steyer: {
+        name: "Tom Steyer",
+        q: `"tom steyer"`,
+        fecId: "P00012716",
+        pollId: "13327",
+    },
+    warren: {
+        name: "Elizabeth Warren",
+        q: `"elizabeth warren"`,
+        fecId: "P00009621",
+        pollId: "13258",
+    },
     yang: {
         name: "Andrew Yang",
         q: `"andrew yang"`,

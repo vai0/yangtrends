@@ -8,6 +8,8 @@ import Header from "src/components/Header";
 import Section from "src/components/Section";
 import Poll from "src/components/Poll";
 import Margin from "src/components/Margin";
+import MaxWidth from "src/components/MaxWidth";
+import Text from "src/components/Text";
 
 import { CANDIDATES, EARLY_STATES } from "src/constants";
 import {
@@ -111,13 +113,21 @@ const JanDebateQualification = () => {
                 </Header>
             </Margin>
             <Margin bottom="small">
-                <Header type="h3">Any four poll 5% or more</Header>
+                <Header type="h3">Any four states 5% or more</Header>
             </Margin>
-            <S.Polls>
-                {yangPolls.map(poll => (
-                    <Poll {...poll} key={poll.id} />
-                ))}
-            </S.Polls>
+            <Margin bottom="smallx">
+                <S.Polls>
+                    {yangPolls.map(poll => (
+                        <Poll {...poll} key={poll.id} />
+                    ))}
+                </S.Polls>
+            </Margin>
+            <MaxWidth value="350px">
+                <Text type="caption">
+                    Sourced from FiveThirtyEight's presidential primary polls:
+                    https://github.com/fivethirtyeight/data/tree/master/polls
+                </Text>
+            </MaxWidth>
         </Section>
     );
 };

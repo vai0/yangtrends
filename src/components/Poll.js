@@ -13,7 +13,7 @@ const roundOne = num => Math.round(parseFloat(num) * 10) / 10;
 const S = {};
 S.Poll = styled.div`
     font-family: Roboto;
-    width: 239px;
+    width: 240px;
     padding: 20px;
     border: 1px solid transparent;
     color: ${({ qualifying }) =>
@@ -23,17 +23,22 @@ S.Poll = styled.div`
         color: ${colors.grey900};
         border: 1px solid ${colors.grey200};
     }
+
+    ${below("mobile")} {
+        padding: 10px;
+        width: 160px;
+    }
 `;
 
 S.Header = styled.div`
     display: flex;
     align-content: center;
-    font-size: 32px;
+    font-size: 28px;
     font-family: Merriweather, serif;
     margin-bottom: 5px;
 
     ${below("mobile")} {
-        font-size: 24px;
+        font-size: 20px;
     }
 `;
 
@@ -54,10 +59,18 @@ S.Info = styled.div`
 S.State = styled.div`
     font-size: 18px;
     font-weight: 700;
+
+    ${below("mobile")} {
+        font-size: 16px;
+    }
 `;
 
 S.SubInfo = styled.div`
     font-size: 14px;
+
+    ${below("mobile")} {
+        font-size: 12px;
+    }
 `;
 
 S.Official = styled.div`
