@@ -1,4 +1,4 @@
-export default {
+module.exports = {
     grey900: "#1b1a21",
     grey800: "#4c4a57",
     grey700: "#777582",

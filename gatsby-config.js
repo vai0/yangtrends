@@ -1,4 +1,4 @@
-const colors = require("src/colors");
+const colors = require("./src/colors");
 
 module.exports = {
     siteMetadata: {
