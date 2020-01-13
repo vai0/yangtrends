@@ -28,13 +28,12 @@ module.exports = {
                 background_color: colors.blue,
                 theme_color: colors.blue,
                 display: "minimal-ui",
-                icon: "src/images/favicon-yang.png",
+                icon: "src/images/yang-icon.png",
             },
         },
         {
             resolve: "gatsby-plugin-emotion",
         },
-        "gatsby-plugin-offline",
         {
             resolve: "gatsby-plugin-google-analytics",
             options: {
@@ -45,7 +44,6 @@ module.exports = {
                 pageTransitionDelay: 0,
                 sampleRate: 5,
                 siteSpeedSampleRate: 10,
-                cookieDomain: "yangtrends.org",
             },
         },
         {
