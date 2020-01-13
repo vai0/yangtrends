@@ -376,8 +376,8 @@ const ArticlesTable = ({ allArticles, caption }) => {
                     const one = getDigitalCount({
                         all: allArticles.nodes,
                         cand,
-                        fromDate: TWO_WEEKS_AGO,
-                        toDate: ONE_WEEK_AGO,
+                        fromDate: ONE_WEEK_AGO,
+                        toDate: NOW,
                     });
                     const diff = one - two;
 
