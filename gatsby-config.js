@@ -39,11 +39,6 @@ module.exports = {
             options: {
                 trackingId: "UA-94088018-2",
                 head: false,
-                anonymize: true,
-                respectDNT: true,
-                pageTransitionDelay: 0,
-                sampleRate: 5,
-                siteSpeedSampleRate: 10,
             },
         },
         {
