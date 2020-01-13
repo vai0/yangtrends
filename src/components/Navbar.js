@@ -2,6 +2,8 @@ import React from "react";
 import styled from "@emotion/styled";
 import Link from "gatsby-link";
 
+import Container from "src/components/Container";
+
 import colors from "src/colors";
 import yangLogo from "src/images/yang-icon.png";
 
@@ -50,12 +52,14 @@ S.Anchor = styled.a`
 const Navbar = () => {
     return (
         <S.Navbar>
-            <S.Group>
-                <S.LogoWrapper to="/">
-                    <S.LogoImage src={yangLogo} />
-                    yangtrends
-                </S.LogoWrapper>
-            </S.Group>
+            <Container>
+                <S.Group>
+                    <S.LogoWrapper to="/">
+                        <S.LogoImage src={yangLogo} />
+                        yangtrends
+                    </S.LogoWrapper>
+                </S.Group>
+            </Container>
         </S.Navbar>
     );
 };

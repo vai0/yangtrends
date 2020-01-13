@@ -6,6 +6,7 @@ import { css } from "@emotion/core";
 const Wrapper = styled.div`
     margin: 0 auto;
     max-width: 1000px;
+    width: 100%;
     padding: 0 20px;
 `;
 
