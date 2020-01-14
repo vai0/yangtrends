@@ -11,13 +11,8 @@ import Margin from "src/components/Margin";
 import MaxWidth from "src/components/MaxWidth";
 import Text from "src/components/Text";
 
-import { CANDIDATES, EARLY_STATES } from "src/constants";
-import {
-    isPollOfficial,
-    isPollQualifying,
-    isPollAboveThreshold,
-    isEarlyState,
-} from "src/util";
+import { CANDIDATES } from "src/constants";
+import { isPollOfficial, isPollQualifying, isEarlyState } from "src/util";
 
 const RAW_DATE_FORMAT = "M/D/YY H:mm";
 
@@ -62,7 +57,7 @@ const JanDebateQualification = () => {
         }
     `);
 
-    const yangPolls = _(allPrimaryPollsCsv.nodes)
+    const allPolls = _(allPrimaryPollsCsv.nodes)
         .filter({
             candidateId: CANDIDATES.yang.pollId,
         })
@@ -83,17 +78,19 @@ const JanDebateQualification = () => {
             const { start, end } = POLL_DATES;
             return date.isSameOrAfter(start) && date.isSameOrBefore(end);
         })
-        .filter(poll => isPollAboveThreshold(poll))
-        .map(poll => {
-            poll.official = isPollOfficial(poll);
-            poll.qualifying = isPollQualifying(poll, isEarlyState(poll.state));
-            return poll;
-        })
+        .map(poll => ({
+            ...poll,
+            official: isPollOfficial(poll),
+            qualifying: isPollQualifying(poll),
+        }))
         .value();
 
-    const earlyStatePolls = yangPolls.filter(({ state }) =>
-        isEarlyState(state)
-    );
+    const earlyStatePolls = allPolls
+        .filter(({ state }) => isEarlyState(state))
+        .map(poll => ({
+            ...poll,
+            qualifying: isPollQualifying(poll, true),
+        }));
 
     return (
         <Section>
@@ -101,7 +98,9 @@ const JanDebateQualification = () => {
                 <Header type="h2">January Debate Polling Qualifications</Header>
             </Margin>
             <Margin bottom="small">
-                <Header type="h3">Two early states 7% or more</Header>
+                <Header type="h3">
+                    Two official early state polls 7% or more
+                </Header>
             </Margin>
             <S.Polls>
                 {earlyStatePolls.map(poll => (
@@ -114,14 +113,25 @@ const JanDebateQualification = () => {
                 </Header>
             </Margin>
             <Margin bottom="small">
-                <Header type="h3">Any four states 5% or more</Header>
+                <Header type="h3">
+                    Any four official state polls 5% or more
+                </Header>
             </Margin>
             <Margin bottom="smallx">
                 <S.Polls>
-                    {yangPolls.map(poll => (
+                    {allPolls.map(poll => (
                         <Poll {...poll} key={poll.id} />
                     ))}
                 </S.Polls>
+            </Margin>
+            <Margin bottom="small">
+                <MaxWidth value="500px">
+                    <Text type="p1">
+                        Polls must be released between{" "}
+                        {POLL_DATES.start.format("MMM Do, YYYY")} and{" "}
+                        {POLL_DATES.end.format("MMM Do, YYYY")}
+                    </Text>
+                </MaxWidth>
             </Margin>
             <MaxWidth value="350px">
                 <Text type="caption">

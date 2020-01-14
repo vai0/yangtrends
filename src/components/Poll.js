@@ -7,7 +7,7 @@ import Icon from "src/components/Icon";
 import { formatDateRange } from "src/util";
 import colors from "src/colors";
 
-import { below } from "src/styles";
+import { above, below } from "src/styles";
 
 const roundOne = num => Math.round(parseFloat(num) * 10) / 10;
 
@@ -17,12 +17,15 @@ S.Poll = styled.div`
     width: 240px;
     padding: 20px;
     border: 1px solid transparent;
-    color: ${({ qualifying }) =>
-        qualifying ? colors.grey900 : colors.grey500};
+    color: ${colors.grey900};
 
-    &:hover {
-        color: ${colors.grey900};
-        border: 1px solid ${colors.grey200};
+    opacity: ${({ official }) => (official ? "1" : "0.3")};
+
+    ${above("mobile")} {
+        &:hover {
+            opacity: 1;
+            border: 1px solid ${colors.grey200};
+        }
     }
 
     ${below("mobile")} {
@@ -94,7 +97,7 @@ const Poll = ({
     official,
 }) => {
     return (
-        <S.Poll qualifying={qualifying}>
+        <S.Poll qualifying={qualifying} official={official}>
             <S.Header>
                 <S.Percent>{roundOne(pct)}% </S.Percent>
                 {qualifying && (
@@ -128,8 +131,8 @@ Poll.propTypes = {
     state: PropTypes.string.isRequired,
     pollsterName: PropTypes.string.isRequired,
     sponsors: PropTypes.string,
-    qualifying: PropTypes.string,
-    official: PropTypes.string,
+    qualifying: PropTypes.bool,
+    official: PropTypes.bool,
 };
 
 export default Poll;

@@ -28,6 +28,7 @@ S.LogoWrapper = styled(Link)`
     font-size: 18px;
     font-weight: 700;
     padding: 20px;
+    padding-left: 0;
     text-decoration: none;
     color: ${colors.text};
     display: flex;

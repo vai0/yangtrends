@@ -10,8 +10,8 @@ const IndexPage = () => {
     return (
         <Layout>
             <SEO title="Home" />
-            <JanDebateQualification />
             <Trends />
+            <JanDebateQualification />
         </Layout>
     );
 };

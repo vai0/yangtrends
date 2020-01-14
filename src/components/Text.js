@@ -7,6 +7,7 @@ import colors from "src/colors";
 import { below } from "src/styles";
 
 const sharedStyles = () => css`
+    font-family: Roboto, sans-serif;
     line-height: 1.4;
     text-align: left;
     margin: 0;
@@ -14,7 +15,6 @@ const sharedStyles = () => css`
 
 const Caption = styled.p`
     ${sharedStyles}
-    font-family: Roboto, sans-serif;
     font-size: 12px;
     color: ${colors.grey500};
 
@@ -23,17 +23,29 @@ const Caption = styled.p`
     }
 `;
 
+const P1 = styled.p`
+    ${sharedStyles}
+    font-size: 16px;
+    color: ${colors.grey800};
+
+    ${below("mobile")} {
+        font-size: 14px;
+    }
+`;
+
 const Header = ({ type, children }) => {
     let Component;
     if (type === "caption") {
         Component = Caption;
+    } else if (type === "p1") {
+        Component = P1;
     }
 
     return <Component>{children}</Component>;
 };
 
 Header.propTypes = {
-    type: PropTypes.oneOf(["caption"]).isRequired,
+    type: PropTypes.oneOf(["p1", "caption"]).isRequired,
     children: PropTypes.node.isRequired,
 };
 
