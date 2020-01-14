@@ -400,34 +400,52 @@ const PollAveragesTable = ({ allPolls }) => {
     const official = _.filter(yangPolls, poll => isPollOfficial(poll));
     const unofficial = _.filter(yangPolls, poll => !isPollOfficial(poll));
 
-    const columns = [
+    // const columns = [
+    //     {
+    //         Header: "",
+    //         id: "blah",
+    //         columns: [{ Header: "asdf", accessor: "1-2019" }],
+    //     },
+    //     {
+    //         Header: "Averages for the month of ...",
+    //         id: "months",
+    //         columns: _(MONTHS)
+    //             .map(({ month, year }) => {
+    //                 const formattedMonth = moment(month + 1, "M").format("MMM");
+    //                 const formattedYear = moment(year, "YYYY").format("YY");
+    //                 const Header = `${formattedMonth} ${formattedYear}`;
+    //                 return {
+    //                     Header,
+    //                     accessor: `${month}-${year}`,
+    //                 };
+    //             })
+    //             .reverse()
+    //             .value(),
+    //     },
+    // ];
+
+    /*
+    [
         {
-            Header: "",
-            id: "averages",
-            columns: [
-                {
-                    Header: "Avg",
-                    accessor: "type",
-                },
-            ],
+            '01-2019': 3.4,
+            ...
+            type: "national"
         },
+        ...
+    ]
+    */
+
+    /*
+
+    [
         {
-            Header: "Averages for the month of ...",
-            id: "months",
-            columns: _(MONTHS)
-                .map(({ month, year }) => {
-                    const formattedMonth = moment(month + 1, "M").format("MMM");
-                    const formattedYear = moment(year, "YYYY").format("YY");
-                    const Header = `${formattedMonth} ${formattedYear}`;
-                    return {
-                        Header,
-                        accessor: `${month}-${year}`,
-                    };
-                })
-                .reverse()
-                .value(),
-        },
-    ];
+            "period": "01-2019",
+            "national": 3.4,
+            "early": 3.4,
+            "official": 1.2,
+        }
+    ]
+    */
 
     const data = [
         getAvgsPerMonth(national, "national"),
@@ -438,7 +456,8 @@ const PollAveragesTable = ({ allPolls }) => {
 
     console.log("data :", data);
 
-    return <Table columns={columns} data={data} />;
+    // return <Table columns={columns} data={data} />;
+    return null;
 };
 
 const Trends = () => {
