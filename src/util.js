@@ -1,7 +1,7 @@
 const moment = require("moment");
 const _ = require("lodash");
 
-const { OFFICIAL_POLLS, EARLY_STATES } = require("./constants");
+const { OFFICIAL_POLLS, EARLY_STATES, CANDIDATES } = require("./constants");
 
 const formatDate = (date, parseFormat) =>
     moment(date).format("YYYY-MM-DD", parseFormat);
@@ -19,6 +19,25 @@ const formatDateRange = (fromDate, toDate, parseFormat = "YYYY-MM-DD") => {
 const NOW = formatDate(moment());
 const ONE_WEEK_AGO = `${formatDate(moment().subtract(7, "d"))}T00:00:00Z`;
 const TWO_WEEKS_AGO = `${formatDate(moment().subtract(14, "d"))}T00:00:00Z`;
+
+const getYangPolls = polls =>
+    _(polls)
+        .filter({
+            candidateId: CANDIDATES.yang.pollId,
+        })
+        .uniqBy("pollId")
+        .map(poll => {
+            const cleanPoll = { ...poll };
+            if (cleanPoll.sponsorIds === "") {
+                cleanPoll.sponsorIds = null;
+            } else if (cleanPoll.sponsorIds) {
+                cleanPoll.sponsorIds = cleanPoll.sponsorIds.split(",");
+            } else {
+                throw Error(`Unexpected sponsorIds: ${cleanPoll.sponsorIds}`);
+            }
+            return cleanPoll;
+        })
+        .value();
 
 const isPollOfficial = ({ pollsterRatingId, sponsorIds }) =>
     _.some(OFFICIAL_POLLS, official => {
@@ -53,4 +72,5 @@ module.exports = {
     isPollQualifying,
     isPollAboveThreshold,
     isEarlyState,
+    getYangPolls,
 };

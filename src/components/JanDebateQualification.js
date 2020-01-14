@@ -11,8 +11,12 @@ import Margin from "src/components/Margin";
 import MaxWidth from "src/components/MaxWidth";
 import Text from "src/components/Text";
 
-import { CANDIDATES } from "src/constants";
-import { isPollOfficial, isPollQualifying, isEarlyState } from "src/util";
+import {
+    isPollOfficial,
+    isPollQualifying,
+    isEarlyState,
+    getYangPolls,
+} from "src/util";
 import { below } from "src/styles";
 
 const RAW_DATE_FORMAT = "M/D/YY H:mm";
@@ -78,22 +82,8 @@ const JanDebateQualification = () => {
         }
     `);
 
-    const allPolls = _(allPrimaryPollsCsv.nodes)
-        .filter({
-            candidateId: CANDIDATES.yang.pollId,
-        })
-        .uniqBy("pollId")
-        .map(poll => {
-            const cleanPoll = { ...poll };
-            if (cleanPoll.sponsorIds === "") {
-                cleanPoll.sponsorIds = null;
-            } else if (cleanPoll.sponsorIds) {
-                cleanPoll.sponsorIds = cleanPoll.sponsorIds.split(",");
-            } else {
-                throw Error(`Unexpected sponsorIds: ${cleanPoll.sponsorIds}`);
-            }
-            return cleanPoll;
-        })
+    const cleanedPolls = getYangPolls(allPrimaryPollsCsv.nodes);
+    const allPolls = _(cleanedPolls)
         .filter(({ endDate }) => {
             const date = moment(endDate, RAW_DATE_FORMAT);
             const { start, end } = POLL_DATES;

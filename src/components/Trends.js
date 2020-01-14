@@ -9,8 +9,17 @@ import Margin from "src/components/Margin";
 import Section from "src/components/Section";
 import Table from "src/components/Table";
 
-import { formatDateShort, NOW, ONE_WEEK_AGO, TWO_WEEKS_AGO } from "src/util";
+import {
+    formatDateShort,
+    NOW,
+    ONE_WEEK_AGO,
+    TWO_WEEKS_AGO,
+    isEarlyState,
+    isPollOfficial,
+    getYangPolls,
+} from "src/util";
 import { CANDIDATES, CABLE_SOURCES, CABLE_SOURCE_IDS } from "src/constants";
+import { jsxNamespacedName } from "../../../../../.cache/typescript/3.7/node_modules/@babel/types/lib/index";
 
 const S = {};
 S.TopHeader = styled.div`
@@ -343,9 +352,57 @@ const ArticlesTable = ({ allArticles }) => {
     );
 };
 
+/**
+{
+    Jan: avg
+    Feb: avg
+    Mar: avg
+    Apr: avg
+}
+
+ */
+
+const PollAveragesTable = ({ allPolls }) => {
+    const pollsForMonth = (polls, month) =>
+        _.filter(
+            polls,
+            ({ endDate }) => moment(endDate, "M/DD/YY").month() === month
+        );
+    const getAvg = polls => {
+        const avg = _.meanBy(polls, "pct");
+    };
+
+    const yangPolls = getYangPolls(allPolls);
+    const national = _.filter(yangPolls, { state: "" });
+    const early = _.filter(yangPolls, ({ state }) => isEarlyState(state));
+    const official = _.filter(yangPolls, poll => isPollOfficial(poll));
+
+    return null;
+};
+
 const Trends = () => {
-    const { allCableType, allArticleType } = useStaticQuery(graphql`
+    const {
+        allCableType,
+        allArticleType,
+        allPrimaryPollsCsv,
+    } = useStaticQuery(graphql`
         query {
+            allPrimaryPollsCsv {
+                nodes {
+                    state
+                    startDate: start_date
+                    endDate: end_date
+                    pollsterRatingId: pollster_rating_id
+                    pollsterName: display_name
+                    sponsorIds: sponsor_ids
+                    sponsors
+                    createdAt: created_at
+                    candidateId: candidate_id
+                    pollId: poll_id
+                    pct
+                    id
+                }
+            }
             allCableType {
                 nodes {
                     id
@@ -394,6 +451,7 @@ const Trends = () => {
                 <Header type="h3">Online Stories</Header>
             </Margin>
             <ArticlesTable allArticles={allArticleType} />
+            <PollAveragesTable allPolls={allPrimaryPollsCsv.nodes} />
         </Section>
     );
 };
