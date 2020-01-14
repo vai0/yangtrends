@@ -19,7 +19,21 @@ import {
     getYangPolls,
 } from "src/util";
 import { CANDIDATES, CABLE_SOURCES, CABLE_SOURCE_IDS } from "src/constants";
-import { jsxNamespacedName } from "../../../../../.cache/typescript/3.7/node_modules/@babel/types/lib/index";
+
+const MONTHS = [
+    { month: 1, year: 2019 },
+    { month: 2, year: 2019 },
+    { month: 3, year: 2019 },
+    { month: 4, year: 2019 },
+    { month: 5, year: 2019 },
+    { month: 6, year: 2019 },
+    { month: 7, year: 2019 },
+    { month: 8, year: 2019 },
+    { month: 9, year: 2019 },
+    { month: 10, year: 2019 },
+    { month: 11, year: 2019 },
+    { month: 0, year: 2020 },
+];
 
 const S = {};
 S.TopHeader = styled.div`
@@ -352,32 +366,79 @@ const ArticlesTable = ({ allArticles }) => {
     );
 };
 
-/**
-{
-    Jan: avg
-    Feb: avg
-    Mar: avg
-    Apr: avg
-}
-
- */
-
 const PollAveragesTable = ({ allPolls }) => {
-    const pollsForMonth = (polls, month) =>
-        _.filter(
-            polls,
-            ({ endDate }) => moment(endDate, "M/DD/YY").month() === month
-        );
-    const getAvg = polls => {
-        const avg = _.meanBy(polls, "pct");
+    const getAvg = (polls, month, year) => {
+        const monthPolls = _.filter(polls, ({ endDate }) => {
+            const date = moment(endDate, "M/DD/YY");
+            const m = date.month();
+            const y = date.year();
+            return m === month && y === year;
+        });
+
+        const avg = _(monthPolls)
+            .map(({ pct }) => parseFloat(pct))
+            .mean();
+        return _.round(avg, 1);
+    };
+
+    const getAvgsPerMonth = (polls, type) => {
+        const avgsPerMonth = _(MONTHS)
+            .keyBy(({ month, year }) => {
+                return `${month}-${year}`;
+            })
+            .mapValues(({ month, year }) => {
+                return getAvg(polls, month, year);
+            })
+            .value();
+        avgsPerMonth.type = type;
+        return avgsPerMonth;
     };
 
     const yangPolls = getYangPolls(allPolls);
     const national = _.filter(yangPolls, { state: "" });
     const early = _.filter(yangPolls, ({ state }) => isEarlyState(state));
     const official = _.filter(yangPolls, poll => isPollOfficial(poll));
+    const unofficial = _.filter(yangPolls, poll => !isPollOfficial(poll));
 
-    return null;
+    const columns = [
+        {
+            Header: "",
+            id: "averages",
+            columns: [
+                {
+                    Header: "Avg",
+                    accessor: "type",
+                },
+            ],
+        },
+        {
+            Header: "Averages for the month of ...",
+            id: "months",
+            columns: _(MONTHS)
+                .map(({ month, year }) => {
+                    const formattedMonth = moment(month + 1, "M").format("MMM");
+                    const formattedYear = moment(year, "YYYY").format("YY");
+                    const Header = `${formattedMonth} ${formattedYear}`;
+                    return {
+                        Header,
+                        accessor: `${month}-${year}`,
+                    };
+                })
+                .reverse()
+                .value(),
+        },
+    ];
+
+    const data = [
+        getAvgsPerMonth(national, "national"),
+        getAvgsPerMonth(early, "early states"),
+        getAvgsPerMonth(official, "official"),
+        getAvgsPerMonth(unofficial, "unofficial"),
+    ];
+
+    console.log("data :", data);
+
+    return <Table columns={columns} data={data} />;
 };
 
 const Trends = () => {
