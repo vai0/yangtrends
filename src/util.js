@@ -1,7 +1,7 @@
 const moment = require("moment");
 const _ = require("lodash");
 
-const { OFFICIAL_POLLS } = require("./constants");
+const { OFFICIAL_POLLS, EARLY_STATES } = require("./constants");
 
 const formatDate = (date, parseFormat) =>
     moment(date).format("YYYY-MM-DD", parseFormat);
@@ -32,10 +32,15 @@ const isPollOfficial = ({ pollsterRatingId, sponsorIds }) =>
         return pollsterMatches && sponsorMatches;
     });
 
-const isPollAboveThreshold = ({ pct }) => parseFloat(pct) >= 5;
+const isPollAboveThreshold = ({ pct }, earlyState) => {
+    const threshold = earlyState ? 7 : 5;
+    return parseFloat(pct) >= threshold;
+};
 
-const isPollQualifying = poll =>
-    isPollOfficial(poll) && isPollAboveThreshold(poll);
+const isPollQualifying = (poll, earlyState = false) =>
+    isPollOfficial(poll) && isPollAboveThreshold(poll, earlyState);
+
+const isEarlyState = state => EARLY_STATES.includes(state);
 
 module.exports = {
     formatDate,
@@ -47,4 +52,5 @@ module.exports = {
     isPollOfficial,
     isPollQualifying,
     isPollAboveThreshold,
+    isEarlyState,
 };

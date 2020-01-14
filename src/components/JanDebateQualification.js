@@ -16,6 +16,7 @@ import {
     isPollOfficial,
     isPollQualifying,
     isPollAboveThreshold,
+    isEarlyState,
 } from "src/util";
 
 const RAW_DATE_FORMAT = "M/D/YY H:mm";
@@ -85,13 +86,13 @@ const JanDebateQualification = () => {
         .filter(poll => isPollAboveThreshold(poll))
         .map(poll => {
             poll.official = isPollOfficial(poll);
-            poll.qualifying = isPollQualifying(poll);
+            poll.qualifying = isPollQualifying(poll, isEarlyState(poll.state));
             return poll;
         })
         .value();
 
     const earlyStatePolls = yangPolls.filter(({ state }) =>
-        EARLY_STATES.includes(state)
+        isEarlyState(state)
     );
 
     return (

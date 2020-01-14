@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styled from "@emotion/styled";
 
 import Icon from "src/components/Icon";
@@ -118,6 +119,17 @@ const Poll = ({
             </S.Info>
         </S.Poll>
     );
+};
+
+Poll.propTypes = {
+    startDate: PropTypes.string.isRequired,
+    endDate: PropTypes.string.isRequired,
+    pct: PropTypes.string.isRequired,
+    state: PropTypes.string.isRequired,
+    pollsterName: PropTypes.string.isRequired,
+    sponsors: PropTypes.string,
+    qualifying: PropTypes.string,
+    official: PropTypes.string,
 };
 
 export default Poll;
