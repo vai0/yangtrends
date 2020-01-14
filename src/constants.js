@@ -29,12 +29,6 @@ const CANDIDATES = {
         fecId: "P00014530",
         pollId: "13289",
     },
-    cory: {
-        name: "Cory Booker",
-        q: `"cory booker"`,
-        fecId: "P00009795",
-        pollId: "13287",
-    },
     klobuchar: {
         name: "Amy Klobuchar",
         q: `"amy klobuchar"`,
