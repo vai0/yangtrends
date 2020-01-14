@@ -14,30 +14,37 @@ const roundOne = num => Math.round(parseFloat(num) * 10) / 10;
 const S = {};
 S.Poll = styled.div`
     font-family: Roboto;
-    width: 240px;
-    padding: 20px;
-    border: 1px solid transparent;
+    width: 160px;
+    padding: 14px;
     color: ${colors.grey900};
 
     opacity: ${({ official }) => (official ? "1" : "0.3")};
+    background: ${({ official, qualifying }) => {
+        if (qualifying) {
+            return "rgba(0, 159, 41, 0.075)";
+        } else if (official) {
+            return "rgba(0, 143, 213, 0.05)";
+        }
+        return undefined;
+    }};
 
     ${above("mobile")} {
         &:hover {
             opacity: 1;
-            border: 1px solid ${colors.grey200};
         }
     }
 
     ${below("mobile")} {
         padding: 10px;
         width: 160px;
+        border-width: 6px;
     }
 `;
 
 S.Header = styled.div`
     display: flex;
     align-content: center;
-    font-size: 28px;
+    font-size: 24px;
     font-family: Merriweather, serif;
     margin-bottom: 5px;
 
@@ -61,20 +68,14 @@ S.Info = styled.div`
 `;
 
 S.State = styled.div`
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 700;
-
-    ${below("mobile")} {
-        font-size: 16px;
-    }
+    color: ${colors.grey800};
 `;
 
 S.SubInfo = styled.div`
-    font-size: 14px;
-
-    ${below("mobile")} {
-        font-size: 12px;
-    }
+    font-size: 12px;
+    color: ${colors.grey700};
 `;
 
 S.Official = styled.div`

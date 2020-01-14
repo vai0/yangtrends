@@ -2,7 +2,6 @@ TODO:
 - split jan debate qualifications into polls and qualification sections
 - add filtering to polls
 - add sorting to polls
-- add Table component
 - Interesting polling stats
 --- avg % for unofficial polls
 --- avg % for official polls
@@ -11,5 +10,5 @@ TODO:
 --- avg % for national polls
 - add google trends
 - add graphs for each one
-- add google trends
 - add colors to diff column
+- tables side-by-side

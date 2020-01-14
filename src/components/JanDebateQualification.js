@@ -13,6 +13,7 @@ import Text from "src/components/Text";
 
 import { CANDIDATES } from "src/constants";
 import { isPollOfficial, isPollQualifying, isEarlyState } from "src/util";
+import { below } from "src/styles";
 
 const RAW_DATE_FORMAT = "M/D/YY H:mm";
 
@@ -22,12 +23,32 @@ const POLL_DATES = {
 };
 
 const S = {};
-
 S.Polls = styled.div`
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
+
+    ${below("mobile")} {
+        justify-content: center;
+    }
 `;
+
+// sorts qualifying, official, then unofficial, each by endDate asc
+const sortPolls = polls => {
+    const qualifyingPolls = _(polls)
+        .filter("qualifying")
+        .orderBy(({ endDate }) => moment(endDate, "MM/DD/YY").unix(), ["desc"])
+        .value();
+    const officialPolls = _(polls)
+        .filter(({ official, qualifying }) => !qualifying && official)
+        .orderBy(({ endDate }) => moment(endDate, "MM/DD/YY").unix(), ["desc"])
+        .value();
+    const unofficial = _(polls)
+        .filter(({ official, qualifying }) => !official && !qualifying)
+        .orderBy(({ endDate }) => moment(endDate, "MM/DD/YY").unix(), ["desc"])
+        .value();
+    return [...qualifyingPolls, ...officialPolls, ...unofficial];
+};
 
 const JanDebateQualification = () => {
     const { allPrimaryPollsCsv } = useStaticQuery(graphql`
@@ -92,6 +113,9 @@ const JanDebateQualification = () => {
             qualifying: isPollQualifying(poll, true),
         }));
 
+    const allPollsSorted = sortPolls(allPolls);
+    const earlyStatePollsSorted = sortPolls(earlyStatePolls);
+
     return (
         <Section>
             <Margin bottom="small">
@@ -103,7 +127,7 @@ const JanDebateQualification = () => {
                 </Header>
             </Margin>
             <S.Polls>
-                {earlyStatePolls.map(poll => (
+                {earlyStatePollsSorted.map(poll => (
                     <Poll {...poll} key={poll.id} />
                 ))}
             </S.Polls>
@@ -119,7 +143,7 @@ const JanDebateQualification = () => {
             </Margin>
             <Margin bottom="medium">
                 <S.Polls>
-                    {allPolls.map(poll => (
+                    {allPollsSorted.map(poll => (
                         <Poll {...poll} key={poll.id} />
                     ))}
                 </S.Polls>
