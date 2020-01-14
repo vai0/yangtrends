@@ -11,3 +11,5 @@ TODO:
 --- avg % for national polls
 - add google trends
 - add graphs for each one
+- add google trends
+- add colors to diff column

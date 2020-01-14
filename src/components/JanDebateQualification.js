@@ -117,14 +117,14 @@ const JanDebateQualification = () => {
                     Any four official state polls 5% or more
                 </Header>
             </Margin>
-            <Margin bottom="smallx">
+            <Margin bottom="medium">
                 <S.Polls>
                     {allPolls.map(poll => (
                         <Poll {...poll} key={poll.id} />
                     ))}
                 </S.Polls>
             </Margin>
-            <Margin bottom="small">
+            <Margin bottom="smallx">
                 <MaxWidth value="500px">
                     <Text type="p1">
                         Polls must be released between{" "}
