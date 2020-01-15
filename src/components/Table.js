@@ -80,13 +80,12 @@ S.TableWrapper = styled.div`
 
 S.Td = styled.td`
     background: ${({ isPositive, isNegative }) => {
-        let color;
         if (isPositive) {
-            color = hexToRgba(colors.green, 0.075);
+            return hexToRgba(colors.green, 0.075);
         } else if (isNegative) {
-            color = hexToRgba(colors.red, 0.075);
+            return hexToRgba(colors.red, 0.075);
         }
-        return color;
+        return undefined;
     }};
     color: ${({ isYang }) => isYang && colors.blue};
     font-weight: ${({ isDiff }) => isDiff && "700"};
@@ -100,8 +99,8 @@ const Td = ({ children }) => {
     const { value } = children.props.cell;
     const isDiff = children.props.column.id === "diff";
     const isYang = _.isString(value) && value.toLowerCase().includes("yang");
-    let isPositive;
-    let isNegative;
+    let isPositive = false;
+    let isNegative = false;
     let inner = value;
 
     if (_.isNumber(value) && isDiff) {
