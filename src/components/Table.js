@@ -2,12 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useTable } from "react-table";
 import styled from "@emotion/styled";
+import _ from "lodash";
 
 import Margin from "src/components/Margin";
 import MaxWidth from "src/components/MaxWidth";
 import Text from "src/components/Text";
 
-import { below } from "src/styles";
+import { below, hexToRgba } from "src/styles";
+import colors from "src/colors";
 
 const S = {};
 S.TableWrapper = styled.div`
@@ -53,12 +55,20 @@ S.TableWrapper = styled.div`
             }
         }
 
+        th {
+            text-align: center;
+
+            &:first-of-type {
+                text-align: left;
+            }
+        }
+
         tr td {
             text-align: center;
             border-bottom: 1px solid grey;
             font-family: Inconsolata, Consolas, Monaco, monospace;
 
-            &:first-child {
+            &:first-of-type {
                 text-align: left;
                 font-weight: 700;
                 font-family: Roboto, sans-serif;
@@ -67,6 +77,56 @@ S.TableWrapper = styled.div`
         }
     }
 `;
+
+S.Td = styled.td`
+    background: ${({ isPositive, isNegative }) => {
+        let color;
+        if (isPositive) {
+            color = hexToRgba(colors.green, 0.075);
+        } else if (isNegative) {
+            color = hexToRgba(colors.red, 0.075);
+        }
+        return color;
+    }};
+    color: ${({ isYang }) => isYang && colors.blue};
+`;
+
+S.Tr = styled.tr`
+    background: ${({ isYang }) => isYang && hexToRgba(colors.blue, 0.05)};
+`;
+
+const Td = ({ children }) => {
+    const { value } = children.props.cell;
+    const isDiff = children.props.column.id === "diff";
+    const isYang = _.isString(value) && value.toLowerCase().includes("yang");
+    let isPositive;
+    let isNegative;
+    let inner = value;
+
+    if (_.isNumber(value) && isDiff) {
+        if (value > 0) {
+            inner = `+${value}`;
+            isPositive = true;
+        } else if (value < 0) {
+            isNegative = true;
+        }
+    }
+
+    return (
+        <S.Td isPositive={isPositive} isNegative={isNegative} isYang={isYang}>
+            {inner}
+        </S.Td>
+    );
+};
+
+const Tr = ({ children }) => {
+    const isYang = _.some(children, ({ props }) => {
+        const { value } = props.children.props.cell;
+        return _.isString(value) && value.toLowerCase().includes("yang");
+    });
+
+    return <S.Tr isYang={isYang}>{children}</S.Tr>;
+};
 
 const Table = ({ columns, data, caption }) => {
     const {
@@ -100,13 +160,13 @@ const Table = ({ columns, data, caption }) => {
                             {rows.map(row => {
                                 prepareRow(row);
                                 return (
-                                    <tr {...row.getRowProps()}>
+                                    <Tr {...row.getRowProps()}>
                                         {row.cells.map(cell => (
-                                            <td {...cell.getCellProps()}>
+                                            <Td {...cell.getCellProps()}>
                                                 {cell.render("Cell")}
-                                            </td>
+                                            </Td>
                                         ))}
-                                    </tr>
+                                    </Tr>
                                 );
                             })}
                         </tbody>

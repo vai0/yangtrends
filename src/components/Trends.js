@@ -117,12 +117,12 @@ const MentionsTable = ({ allCable }) => {
                 id: "mentions",
                 columns: [
                     {
-                        Header: formatDateShort(TWO_WEEKS_AGO),
-                        accessor: "two",
-                    },
-                    {
                         Header: formatDateShort(ONE_WEEK_AGO),
                         accessor: "one",
+                    },
+                    {
+                        Header: formatDateShort(TWO_WEEKS_AGO),
+                        accessor: "two",
                     },
                 ],
             },
@@ -209,12 +209,12 @@ const MentionsPerStationTable = ({ allCable }) => {
             id: "mentions",
             columns: [
                 {
-                    Header: formatDateShort(TWO_WEEKS_AGO),
-                    accessor: "two",
-                },
-                {
                     Header: formatDateShort(ONE_WEEK_AGO),
                     accessor: "one",
+                },
+                {
+                    Header: formatDateShort(TWO_WEEKS_AGO),
+                    accessor: "two",
                 },
             ],
         },
@@ -296,12 +296,12 @@ const ArticlesTable = ({ allArticles }) => {
                 id: "digital",
                 columns: [
                     {
-                        Header: formatDateShort(TWO_WEEKS_AGO),
-                        accessor: "two",
-                    },
-                    {
                         Header: formatDateShort(ONE_WEEK_AGO),
                         accessor: "one",
+                    },
+                    {
+                        Header: formatDateShort(TWO_WEEKS_AGO),
+                        accessor: "two",
                     },
                 ],
             },
@@ -400,29 +400,32 @@ const PollAveragesTable = ({ allPolls }) => {
     const official = _.filter(yangPolls, poll => isPollOfficial(poll));
     const unofficial = _.filter(yangPolls, poll => !isPollOfficial(poll));
 
-    const columns = [
-        {
-            Header: "Period",
-            accessor: "period",
-        },
+    const columns = React.useMemo(
+        () => [
+            {
+                Header: "Period",
+                accessor: "period",
+            },
 
-        {
-            Header: "National",
-            accessor: "national",
-        },
-        {
-            Header: "Early States",
-            accessor: "early",
-        },
-        {
-            Header: "Official",
-            accessor: "official",
-        },
-        {
-            Header: "Unofficial",
-            accessor: "unofficial",
-        },
-    ];
+            {
+                Header: "National",
+                accessor: "national",
+            },
+            {
+                Header: "Early States",
+                accessor: "early",
+            },
+            {
+                Header: "Official",
+                accessor: "official",
+            },
+            {
+                Header: "Unofficial",
+                accessor: "unofficial",
+            },
+        ],
+        []
+    );
 
     const data = [
         getAvgsPerMonth(national, "national"),
@@ -434,29 +437,33 @@ const PollAveragesTable = ({ allPolls }) => {
     const findPollAvg = (period, type) =>
         _.find(data, ({ type: t }) => t === type)[period];
 
-    const invertedData = _(MONTHS)
-        .map(({ month, year }) => {
-            const period = `${month}-${year}`;
+    const invertedData = React.useMemo(
+        () =>
+            _(MONTHS)
+                .map(({ month, year }) => {
+                    const period = `${month}-${year}`;
 
-            const national = findPollAvg(period, "national");
-            const early = findPollAvg(period, "early");
-            const official = findPollAvg(period, "official");
-            const unofficial = findPollAvg(period, "unofficial");
+                    const national = findPollAvg(period, "national");
+                    const early = findPollAvg(period, "early");
+                    const official = findPollAvg(period, "official");
+                    const unofficial = findPollAvg(period, "unofficial");
 
-            const formattedMonth = moment(month + 1, "M").format("MMM");
-            const formattedYear = moment(year, "YYYY").format("YY");
-            const formattedPeriod = `${formattedMonth} '${formattedYear}`;
+                    const formattedMonth = moment(month + 1, "M").format("MMM");
+                    const formattedYear = moment(year, "YYYY").format("YY");
+                    const formattedPeriod = `${formattedMonth} '${formattedYear}`;
 
-            return {
-                period: formattedPeriod,
-                national,
-                early,
-                official,
-                unofficial,
-            };
-        })
-        .reverse()
-        .value();
+                    return {
+                        period: formattedPeriod,
+                        national,
+                        early,
+                        official,
+                        unofficial,
+                    };
+                })
+                .reverse()
+                .value(),
+        []
+    );
 
     return <Table columns={columns} data={invertedData} />;
 };
