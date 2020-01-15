@@ -13,9 +13,9 @@ import { below } from "src/styles";
 
 import {
     formatDateShort,
-    NOW,
-    ONE_WEEK_AGO,
-    TWO_WEEKS_AGO,
+    now,
+    oneWeekAgo,
+    twoWeeksAgo,
     isEarlyState,
     isPollOfficial,
     getYangPolls,
@@ -106,7 +106,7 @@ const cableSourceCaption = yangQuery => (
         Sourced from Internet Archive’s television news archive via the GDELT
         project with query "{yangQuery ? CANDIDATES.yang.q : "candidates"} AND
         publicdate:[
-        {`${TWO_WEEKS_AGO} TO ${NOW}`}] AND mediatype:movies"
+        {`${twoWeeksAgo()} TO ${now()}`}] AND mediatype:movies"
     </>
 );
 const candidateQueries = _(CANDIDATES)
@@ -134,11 +134,11 @@ const MentionsTable = ({ allCable }) => {
                 id: "mentions",
                 columns: [
                     {
-                        Header: formatDateShort(ONE_WEEK_AGO),
+                        Header: formatDateShort(oneWeekAgo()),
                         accessor: "one",
                     },
                     {
-                        Header: formatDateShort(TWO_WEEKS_AGO),
+                        Header: formatDateShort(twoWeeksAgo()),
                         accessor: "two",
                     },
                 ],
@@ -166,14 +166,14 @@ const MentionsTable = ({ allCable }) => {
                     const two = getCableCount({
                         all: allCable.nodes,
                         cand,
-                        fromDate: TWO_WEEKS_AGO,
-                        toDate: ONE_WEEK_AGO,
+                        fromDate: twoWeeksAgo(),
+                        toDate: oneWeekAgo(),
                     });
                     const one = getCableCount({
                         all: allCable.nodes,
                         cand,
-                        fromDate: ONE_WEEK_AGO,
-                        toDate: NOW,
+                        fromDate: oneWeekAgo(),
+                        toDate: now(),
                     });
                     const diff = {
                         total: one.total - two.total,
@@ -226,11 +226,11 @@ const MentionsPerStationTable = ({ allCable }) => {
             id: "mentions",
             columns: [
                 {
-                    Header: formatDateShort(ONE_WEEK_AGO),
+                    Header: formatDateShort(oneWeekAgo()),
                     accessor: "one",
                 },
                 {
-                    Header: formatDateShort(TWO_WEEKS_AGO),
+                    Header: formatDateShort(twoWeeksAgo()),
                     accessor: "two",
                 },
             ],
@@ -256,14 +256,14 @@ const MentionsPerStationTable = ({ allCable }) => {
                     const two = getMentionsPerStation({
                         all: allCable.nodes,
                         source,
-                        fromDate: TWO_WEEKS_AGO,
-                        toDate: ONE_WEEK_AGO,
+                        fromDate: twoWeeksAgo(),
+                        toDate: oneWeekAgo(),
                     });
                     const one = getMentionsPerStation({
                         all: allCable.nodes,
                         source,
-                        fromDate: ONE_WEEK_AGO,
-                        toDate: NOW,
+                        fromDate: oneWeekAgo(),
+                        toDate: now(),
                     });
                     const diff = one - two;
 
@@ -313,11 +313,11 @@ const ArticlesTable = ({ allArticles }) => {
                 id: "digital",
                 columns: [
                     {
-                        Header: formatDateShort(ONE_WEEK_AGO),
+                        Header: formatDateShort(oneWeekAgo()),
                         accessor: "one",
                     },
                     {
-                        Header: formatDateShort(TWO_WEEKS_AGO),
+                        Header: formatDateShort(twoWeeksAgo()),
                         accessor: "two",
                     },
                 ],
@@ -346,14 +346,14 @@ const ArticlesTable = ({ allArticles }) => {
                     const two = getDigitalCount({
                         all: allArticles.nodes,
                         cand,
-                        fromDate: TWO_WEEKS_AGO,
-                        toDate: ONE_WEEK_AGO,
+                        fromDate: twoWeeksAgo(),
+                        toDate: oneWeekAgo(),
                     });
                     const one = getDigitalCount({
                         all: allArticles.nodes,
                         cand,
-                        fromDate: ONE_WEEK_AGO,
-                        toDate: NOW,
+                        fromDate: oneWeekAgo(),
+                        toDate: now(),
                     });
                     const diff = one - two;
 

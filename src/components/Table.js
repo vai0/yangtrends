@@ -178,7 +178,7 @@ const Table = ({ columns, data, caption }) => {
                     </table>
                 </S.TableWrapper>
             </Margin>
-            <MaxWidth value="350px">
+            <MaxWidth>
                 <Text type="caption">{caption}</Text>
             </MaxWidth>
         </>

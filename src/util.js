@@ -16,9 +16,9 @@ const formatDateRange = (fromDate, toDate, parseFormat = "YYYY-MM-DD") => {
     return `${from} - ${to}`;
 };
 
-const NOW = formatDate(moment());
-const ONE_WEEK_AGO = `${formatDate(moment().subtract(7, "d"))}T00:00:00Z`;
-const TWO_WEEKS_AGO = `${formatDate(moment().subtract(14, "d"))}T00:00:00Z`;
+const now = () => formatDate(moment());
+const oneWeekAgo = () => `${formatDate(moment().subtract(7, "d"))}T00:00:00Z`;
+const twoWeeksAgo = () => `${formatDate(moment().subtract(14, "d"))}T00:00:00Z`;
 
 const getYangPolls = polls =>
     _(polls)
@@ -65,9 +65,9 @@ module.exports = {
     formatDate,
     formatDateShort,
     formatDateRange,
-    NOW,
-    ONE_WEEK_AGO,
-    TWO_WEEKS_AGO,
+    now,
+    oneWeekAgo,
+    twoWeeksAgo,
     isPollOfficial,
     isPollQualifying,
     isPollAboveThreshold,

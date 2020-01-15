@@ -12,7 +12,7 @@ const {
     INTERNET_ARCHIVE_ENDPOINT,
     BING_NEWS_ENDPOINT,
 } = require("./src/constants");
-const { NOW, TWO_WEEKS_AGO } = require("./src/util");
+const { now, twoWeeksAgo } = require("./src/util");
 
 const paramsSerializer = params =>
     qs.stringify(params, { arrayFormat: "bracket" });
@@ -30,7 +30,7 @@ const getArticles = async (fromDate, q) => {
                 pageSize: PAGE_SIZE,
                 safeSearch: false,
                 fromPublishedDate: fromDate,
-                toPublishedDate: NOW,
+                toPublishedDate: now(),
                 q,
             },
             paramsSerializer,
@@ -65,7 +65,7 @@ const getCable = async (fromDate, q) => {
         "title",
     ];
     const cableRequest = async (pageNumber = 1) => {
-        const dateRange = `publicdate:[${fromDate} TO ${NOW}]`;
+        const dateRange = `publicdate:[${fromDate} TO ${now()}]`;
         const mediatype = "mediatype:movies";
         const { data } = await axios.get(INTERNET_ARCHIVE_ENDPOINT, {
             params: {
@@ -108,7 +108,7 @@ const getCable = async (fromDate, q) => {
 const getNewsForAllCandidates = async getNewsFunc => {
     const allNews = [];
     for (cand in CANDIDATES) {
-        let news = await getNewsFunc(TWO_WEEKS_AGO, CANDIDATES[cand].q);
+        let news = await getNewsFunc(twoWeeksAgo(), CANDIDATES[cand].q);
         news = news.map(n => {
             n.candidate = cand;
             return n;
