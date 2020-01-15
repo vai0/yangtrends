@@ -44,6 +44,8 @@ S.TableWrapper = styled.div`
         }
 
         thead tr {
+            font-size: 14px;
+
             :last-child {
                 th {
                     border-bottom: 2px solid black;
@@ -52,7 +54,16 @@ S.TableWrapper = styled.div`
         }
 
         tr td {
+            text-align: center;
             border-bottom: 1px solid grey;
+            font-family: Inconsolata, Consolas, Monaco, monospace;
+
+            &:first-child {
+                text-align: left;
+                font-weight: 700;
+                font-family: Roboto, sans-serif;
+                font-size: 14px;
+            }
         }
     }
 `;

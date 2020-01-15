@@ -1,5 +1,6 @@
 TODO:
 - split jan debate qualifications into polls and qualification sections
+- build tab component
 - add filtering to polls
 - add sorting to polls
 - Interesting polling stats
@@ -8,7 +9,12 @@ TODO:
 --- avg % for early states
 --- avg % for states polls
 --- avg % for national polls
-- add google trends
+- add google trends (for all candidates)
+--- national
+--- iowa
+--- new hampshire
+--- nevada
+--- south carolina
 - add graphs for each one
 - add colors to diff column
-- tables side-by-side
+- lay tables side-by-side

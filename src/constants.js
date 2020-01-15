@@ -11,36 +11,36 @@ const POLLSTER_CSV_URL =
     "https://raw.githubusercontent.com/fivethirtyeight/data/master/pollster-ratings/pollster-ratings.csv";
 
 const CANDIDATES = {
-    bernie: {
-        name: "Bernie Sanders",
-        q: `"bernie sanders"`,
-        fecId: "P60007168",
-        pollId: "13257",
-    },
-    biden: {
-        name: "Joe Biden",
-        q: `"joe biden"`,
-        fecId: "P80000722",
-        pollId: "13256",
-    },
-    bloomberg: {
-        name: "Mike Bloomberg",
-        q: `"mike bloomberg"`,
-        fecId: "P00014530",
-        pollId: "13289",
-    },
-    klobuchar: {
-        name: "Amy Klobuchar",
-        q: `"amy klobuchar"`,
-        fecId: "P80006117",
-        pollId: "13310",
-    },
-    pete: {
-        name: "Pete Buttigieg",
-        q: `"buttigieg"`,
-        fecId: "P00010298",
-        pollId: "13345",
-    },
+    // bernie: {
+    //     name: "Bernie Sanders",
+    //     q: `"bernie sanders"`,
+    //     fecId: "P60007168",
+    //     pollId: "13257",
+    // },
+    // biden: {
+    //     name: "Joe Biden",
+    //     q: `"joe biden"`,
+    //     fecId: "P80000722",
+    //     pollId: "13256",
+    // },
+    // bloomberg: {
+    //     name: "Mike Bloomberg",
+    //     q: `"mike bloomberg"`,
+    //     fecId: "P00014530",
+    //     pollId: "13289",
+    // },
+    // klobuchar: {
+    //     name: "Amy Klobuchar",
+    //     q: `"amy klobuchar"`,
+    //     fecId: "P80006117",
+    //     pollId: "13310",
+    // },
+    // pete: {
+    //     name: "Pete Buttigieg",
+    //     q: `"buttigieg"`,
+    //     fecId: "P00010298",
+    //     pollId: "13345",
+    // },
     steyer: {
         name: "Tom Steyer",
         q: `"tom steyer"`,

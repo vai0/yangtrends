@@ -7,6 +7,7 @@ import emotionNormalize from "emotion-normalize";
 
 import "typeface-roboto";
 import "typeface-merriweather";
+import "typeface-inconsolata";
 
 import Container from "src/components/Container";
 import Navbar from "src/components/Navbar";

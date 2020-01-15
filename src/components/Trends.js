@@ -378,7 +378,7 @@ const PollAveragesTable = ({ allPolls }) => {
         const avg = _(monthPolls)
             .map(({ pct }) => parseFloat(pct))
             .mean();
-        return _.round(avg, 1);
+        return `${avg.toFixed(1)}%`;
     };
 
     const getAvgsPerMonth = (polls, type) => {
@@ -400,64 +400,65 @@ const PollAveragesTable = ({ allPolls }) => {
     const official = _.filter(yangPolls, poll => isPollOfficial(poll));
     const unofficial = _.filter(yangPolls, poll => !isPollOfficial(poll));
 
-    // const columns = [
-    //     {
-    //         Header: "",
-    //         id: "blah",
-    //         columns: [{ Header: "asdf", accessor: "1-2019" }],
-    //     },
-    //     {
-    //         Header: "Averages for the month of ...",
-    //         id: "months",
-    //         columns: _(MONTHS)
-    //             .map(({ month, year }) => {
-    //                 const formattedMonth = moment(month + 1, "M").format("MMM");
-    //                 const formattedYear = moment(year, "YYYY").format("YY");
-    //                 const Header = `${formattedMonth} ${formattedYear}`;
-    //                 return {
-    //                     Header,
-    //                     accessor: `${month}-${year}`,
-    //                 };
-    //             })
-    //             .reverse()
-    //             .value(),
-    //     },
-    // ];
-
-    /*
-    [
+    const columns = [
         {
-            '01-2019': 3.4,
-            ...
-            type: "national"
+            Header: "Period",
+            accessor: "period",
         },
-        ...
-    ]
-    */
 
-    /*
-
-    [
         {
-            "period": "01-2019",
-            "national": 3.4,
-            "early": 3.4,
-            "official": 1.2,
-        }
-    ]
-    */
+            Header: "National",
+            accessor: "national",
+        },
+        {
+            Header: "Early States",
+            accessor: "early",
+        },
+        {
+            Header: "Official",
+            accessor: "official",
+        },
+        {
+            Header: "Unofficial",
+            accessor: "unofficial",
+        },
+    ];
 
     const data = [
         getAvgsPerMonth(national, "national"),
-        getAvgsPerMonth(early, "early states"),
+        getAvgsPerMonth(early, "early"),
         getAvgsPerMonth(official, "official"),
         getAvgsPerMonth(unofficial, "unofficial"),
     ];
 
-    console.log("data :", data);
+    const findPollAvg = (period, type) =>
+        _.find(data, ({ type: t }) => t === type)[period];
 
-    // return <Table columns={columns} data={data} />;
-    return null;
+    const invertedData = _(MONTHS)
+        .map(({ month, year }) => {
+            const period = `${month}-${year}`;
+
+            const national = findPollAvg(period, "national");
+            const early = findPollAvg(period, "early");
+            const official = findPollAvg(period, "official");
+            const unofficial = findPollAvg(period, "unofficial");
+
+            const formattedMonth = moment(month + 1, "M").format("MMM");
+            const formattedYear = moment(year, "YYYY").format("YY");
+            const formattedPeriod = `${formattedMonth} '${formattedYear}`;
+
+            return {
+                period: formattedPeriod,
+                national,
+                early,
+                official,
+                unofficial,
+            };
+        })
+        .reverse()
+        .value();
+
+    return <Table columns={columns} data={invertedData} />;
 };
 
 const Trends = () => {
@@ -530,7 +531,12 @@ const Trends = () => {
             <Margin bottom="small">
                 <Header type="h3">Online Stories</Header>
             </Margin>
-            <ArticlesTable allArticles={allArticleType} />
+            <Margin bottom="large">
+                <ArticlesTable allArticles={allArticleType} />
+            </Margin>
+            <Margin bottom="small">
+                <Header type="h3">Yang's Polling Averages</Header>
+            </Margin>
             <PollAveragesTable allPolls={allPrimaryPollsCsv.nodes} />
         </Section>
     );
