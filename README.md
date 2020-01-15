@@ -3,12 +3,6 @@ TODO:
 - build tab component
 - add filtering to polls
 - add sorting to polls
-- Interesting polling stats
---- avg % for unofficial polls
---- avg % for official polls
---- avg % for early states
---- avg % for states polls
---- avg % for national polls
 - add google trends (for all candidates)
 --- national
 --- iowa
@@ -16,5 +10,3 @@ TODO:
 --- nevada
 --- south carolina
 - add graphs for each one
-- add colors to diff column
-- lay tables side-by-side

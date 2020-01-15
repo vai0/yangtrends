@@ -89,6 +89,7 @@ S.Td = styled.td`
         return color;
     }};
     color: ${({ isYang }) => isYang && colors.blue};
+    font-weight: ${({ isDiff }) => isDiff && "700"};
 `;
 
 S.Tr = styled.tr`
@@ -113,7 +114,12 @@ const Td = ({ children }) => {
     }
 
     return (
-        <S.Td isPositive={isPositive} isNegative={isNegative} isYang={isYang}>
+        <S.Td
+            isPositive={isPositive}
+            isNegative={isNegative}
+            isYang={isYang}
+            isDiff={isDiff}
+        >
             {inner}
         </S.Td>
     );

@@ -9,6 +9,8 @@ import Margin from "src/components/Margin";
 import Section from "src/components/Section";
 import Table from "src/components/Table";
 
+import { below } from "src/styles";
+
 import {
     formatDateShort,
     NOW,
@@ -38,6 +40,21 @@ const MONTHS = [
 const S = {};
 S.TopHeader = styled.div`
     max-width: 150px;
+`;
+S.TableRow = styled.div`
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+`;
+S.TableBlock = styled.div`
+    max-width: 480px;
+    padding: 0 20px;
+    padding-bottom: 80px;
+
+    ${below("mobile")} {
+        padding: 0;
+        padding-bottom: 40px;
+    }
 `;
 
 const getCableCount = ({ all, cand, fromDate, toDate }) => {
@@ -465,7 +482,13 @@ const PollAveragesTable = ({ allPolls }) => {
         []
     );
 
-    return <Table columns={columns} data={invertedData} />;
+    return (
+        <Table
+            columns={columns}
+            data={invertedData}
+            caption="Sourced from FiveThirtyEight's presidential primary polls: https://github.com/fivethirtyeight/data/tree/master/polls"
+        />
+    );
 };
 
 const Trends = () => {
@@ -517,34 +540,40 @@ const Trends = () => {
 
     return (
         <Section>
-            <Margin bottom="small">
+            <Margin bottom="medium">
                 <Header type="h2">Trends</Header>
             </Margin>
-            <Margin bottom="small">
-                <Header type="h3">Cable TV Mentions</Header>
-            </Margin>
-            <Margin bottom="large">
-                <MentionsTable
-                    allCable={allCableType}
-                    allArticles={allArticleType}
-                />
-            </Margin>
-            <Margin bottom="small">
-                <Header type="h3">Mentions per Station of Yang</Header>
-            </Margin>
-            <Margin bottom="large">
-                <MentionsPerStationTable allCable={allCableType} />
-            </Margin>
-            <Margin bottom="small">
-                <Header type="h3">Online Stories</Header>
-            </Margin>
-            <Margin bottom="large">
-                <ArticlesTable allArticles={allArticleType} />
-            </Margin>
-            <Margin bottom="small">
-                <Header type="h3">Yang's Polling Averages</Header>
-            </Margin>
-            <PollAveragesTable allPolls={allPrimaryPollsCsv.nodes} />
+            <S.TableRow>
+                <S.TableBlock>
+                    <Margin bottom="smallx">
+                        <Header type="h3">Cable TV Mentions</Header>
+                    </Margin>
+                    <MentionsTable
+                        allCable={allCableType}
+                        allArticles={allArticleType}
+                    />
+                </S.TableBlock>
+                <S.TableBlock>
+                    <Margin bottom="smallx">
+                        <Header type="h3">Mentions per Station of Yang</Header>
+                    </Margin>
+                    <MentionsPerStationTable allCable={allCableType} />
+                </S.TableBlock>
+            </S.TableRow>
+            <S.TableRow>
+                <S.TableBlock>
+                    <Margin bottom="smallx">
+                        <Header type="h3">Online Stories</Header>
+                    </Margin>
+                    <ArticlesTable allArticles={allArticleType} />
+                </S.TableBlock>
+                <S.TableBlock>
+                    <Margin bottom="small">
+                        <Header type="h3">Yang's Polling Averages</Header>
+                    </Margin>
+                    <PollAveragesTable allPolls={allPrimaryPollsCsv.nodes} />
+                </S.TableBlock>
+            </S.TableRow>
         </Section>
     );
 };

@@ -147,7 +147,7 @@ const JanDebateQualification = () => {
                     </Text>
                 </MaxWidth>
             </Margin>
-            <MaxWidth value="350px">
+            <MaxWidth>
                 <Text type="caption">
                     Sourced from FiveThirtyEight's presidential primary polls:
                     https://github.com/fivethirtyeight/data/tree/master/polls
