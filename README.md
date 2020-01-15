@@ -1,6 +1,7 @@
 TODO:
 - split jan debate qualifications into polls and qualification sections
 - build tab component
+- add tabs to polling averages for each candidate
 - add filtering to polls
 - add sorting to polls
 - add google trends (for all candidates)
