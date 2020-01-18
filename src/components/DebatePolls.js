@@ -54,7 +54,7 @@ const sortPolls = polls => {
     return [...qualifyingPolls, ...officialPolls, ...unofficial];
 };
 
-const JanDebateQualification = () => {
+const DebatePolls = () => {
     const { allPrimaryPollsCsv } = useStaticQuery(graphql`
         query {
             allPrimaryPollsCsv {
@@ -157,4 +157,4 @@ const JanDebateQualification = () => {
     );
 };
 
-export default JanDebateQualification;
+export default DebatePolls;

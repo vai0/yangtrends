@@ -4,14 +4,14 @@ import Layout from "src/components/Layout";
 import SEO from "src/components/seo";
 
 import Trends from "src/components/Trends";
-import JanDebateQualification from "src/components/JanDebateQualification";
+import DebatePolls from "src/components/DebatePolls";
 
 const IndexPage = () => {
     return (
         <Layout>
             <SEO title="Home" />
             <Trends />
-            <JanDebateQualification />
+            <DebatePolls />
         </Layout>
     );
 };

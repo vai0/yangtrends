@@ -23,8 +23,6 @@ import {
 import { CANDIDATES, CABLE_SOURCES, CABLE_SOURCE_IDS } from "src/constants";
 
 const MONTHS = [
-    { month: 1, year: 2019 },
-    { month: 2, year: 2019 },
     { month: 3, year: 2019 },
     { month: 4, year: 2019 },
     { month: 5, year: 2019 },
@@ -157,46 +155,42 @@ const MentionsTable = ({ allCable }) => {
         []
     );
 
-    const data = React.useMemo(
-        () =>
-            _(CANDIDATES)
-                .keys()
-                .map(cand => {
-                    const { name } = CANDIDATES[cand];
-                    const two = getCableCount({
-                        all: allCable.nodes,
-                        cand,
-                        fromDate: twoWeeksAgo(),
-                        toDate: oneWeekAgo(),
-                    });
-                    const one = getCableCount({
-                        all: allCable.nodes,
-                        cand,
-                        fromDate: oneWeekAgo(),
-                        toDate: now(),
-                    });
-                    const diff = {
-                        total: one.total - two.total,
-                        main: one.main - two.main,
-                        other: one.other - two.other,
-                    };
+    const data = _(CANDIDATES)
+        .keys()
+        .map(cand => {
+            const { name } = CANDIDATES[cand];
+            const two = getCableCount({
+                all: allCable.nodes,
+                cand,
+                fromDate: twoWeeksAgo(),
+                toDate: oneWeekAgo(),
+            });
+            const one = getCableCount({
+                all: allCable.nodes,
+                cand,
+                fromDate: oneWeekAgo(),
+                toDate: now(),
+            });
+            const diff = {
+                total: one.total - two.total,
+                main: one.main - two.main,
+                other: one.other - two.other,
+            };
 
-                    return {
-                        candidate: name,
-                        two: two.main,
-                        one: one.main,
-                        diff: diff.main,
-                    };
-                })
-                .orderBy(["one"], ["desc"])
-                .value(),
-        []
-    );
+            return {
+                candidate: name,
+                two: two.main,
+                one: one.main,
+                diff: diff.main,
+            };
+        })
+        .orderBy(["one"], ["desc"])
+        .value();
 
     return (
         <Table
             columns={columns}
-            data={data}
+            data={React.useMemo(() => data, [data])}
             caption={
                 <>
                     {cableSourceCaption()}, where "candidates" is replaced with
@@ -247,42 +241,38 @@ const MentionsPerStationTable = ({ allCable }) => {
         },
     ];
 
-    const data = React.useMemo(
-        () =>
-            _(CABLE_SOURCES)
-                .keys()
-                .map(source => {
-                    const { name } = CABLE_SOURCES[source];
-                    const two = getMentionsPerStation({
-                        all: allCable.nodes,
-                        source,
-                        fromDate: twoWeeksAgo(),
-                        toDate: oneWeekAgo(),
-                    });
-                    const one = getMentionsPerStation({
-                        all: allCable.nodes,
-                        source,
-                        fromDate: oneWeekAgo(),
-                        toDate: now(),
-                    });
-                    const diff = one - two;
+    const data = _(CABLE_SOURCES)
+        .keys()
+        .map(source => {
+            const { name } = CABLE_SOURCES[source];
+            const two = getMentionsPerStation({
+                all: allCable.nodes,
+                source,
+                fromDate: twoWeeksAgo(),
+                toDate: oneWeekAgo(),
+            });
+            const one = getMentionsPerStation({
+                all: allCable.nodes,
+                source,
+                fromDate: oneWeekAgo(),
+                toDate: now(),
+            });
+            const diff = one - two;
 
-                    return {
-                        source: name,
-                        two,
-                        one,
-                        diff,
-                    };
-                })
-                .orderBy(["one"], ["desc"])
-                .value(),
-        []
-    );
+            return {
+                source: name,
+                two,
+                one,
+                diff,
+            };
+        })
+        .orderBy(["one"], ["desc"])
+        .value();
 
     return (
         <Table
             columns={columns}
-            data={data}
+            data={React.useMemo(() => data, [data])}
             caption={
                 <>
                     {cableSourceCaption(true)}. The results are filtered to only
@@ -336,43 +326,39 @@ const ArticlesTable = ({ allArticles }) => {
         []
     );
 
-    const data = React.useMemo(
-        () =>
-            _(CANDIDATES)
-                .keys()
-                .map(cand => {
-                    const { name } = CANDIDATES[cand];
+    const data = _(CANDIDATES)
+        .keys()
+        .map(cand => {
+            const { name } = CANDIDATES[cand];
 
-                    const two = getDigitalCount({
-                        all: allArticles.nodes,
-                        cand,
-                        fromDate: twoWeeksAgo(),
-                        toDate: oneWeekAgo(),
-                    });
-                    const one = getDigitalCount({
-                        all: allArticles.nodes,
-                        cand,
-                        fromDate: oneWeekAgo(),
-                        toDate: now(),
-                    });
-                    const diff = one - two;
+            const two = getDigitalCount({
+                all: allArticles.nodes,
+                cand,
+                fromDate: twoWeeksAgo(),
+                toDate: oneWeekAgo(),
+            });
+            const one = getDigitalCount({
+                all: allArticles.nodes,
+                cand,
+                fromDate: oneWeekAgo(),
+                toDate: now(),
+            });
+            const diff = one - two;
 
-                    return {
-                        candidate: name,
-                        two,
-                        one,
-                        diff,
-                    };
-                })
-                .orderBy(["one"], ["desc"])
-                .value(),
-        []
-    );
+            return {
+                candidate: name,
+                two,
+                one,
+                diff,
+            };
+        })
+        .orderBy(["one"], ["desc"])
+        .value();
 
     return (
         <Table
             columns={columns}
-            data={data}
+            data={React.useMemo(() => data, [data])}
             caption={
                 <>
                     Sourced from Contextual Web Search's News API. Candidate
@@ -454,38 +440,34 @@ const PollAveragesTable = ({ allPolls }) => {
     const findPollAvg = (period, type) =>
         _.find(data, ({ type: t }) => t === type)[period];
 
-    const invertedData = React.useMemo(
-        () =>
-            _(MONTHS)
-                .map(({ month, year }) => {
-                    const period = `${month}-${year}`;
+    const invertedData = _(MONTHS)
+        .map(({ month, year }) => {
+            const period = `${month}-${year}`;
 
-                    const national = findPollAvg(period, "national");
-                    const early = findPollAvg(period, "early");
-                    const official = findPollAvg(period, "official");
-                    const unofficial = findPollAvg(period, "unofficial");
+            const national = findPollAvg(period, "national");
+            const early = findPollAvg(period, "early");
+            const official = findPollAvg(period, "official");
+            const unofficial = findPollAvg(period, "unofficial");
 
-                    const formattedMonth = moment(month + 1, "M").format("MMM");
-                    const formattedYear = moment(year, "YYYY").format("YY");
-                    const formattedPeriod = `${formattedMonth} '${formattedYear}`;
+            const formattedMonth = moment(month + 1, "M").format("MMM");
+            const formattedYear = moment(year, "YYYY").format("YY");
+            const formattedPeriod = `${formattedMonth} '${formattedYear}`;
 
-                    return {
-                        period: formattedPeriod,
-                        national,
-                        early,
-                        official,
-                        unofficial,
-                    };
-                })
-                .reverse()
-                .value(),
-        []
-    );
+            return {
+                period: formattedPeriod,
+                national,
+                early,
+                official,
+                unofficial,
+            };
+        })
+        .reverse()
+        .value();
 
     return (
         <Table
             columns={columns}
-            data={invertedData}
+            data={React.useMemo(() => invertedData, [invertedData])}
             caption="Sourced from FiveThirtyEight's presidential primary polls: https://github.com/fivethirtyeight/data/tree/master/polls"
         />
     );
