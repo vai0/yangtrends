@@ -55,13 +55,17 @@ S.TableBlock = styled.div`
     }
 `;
 
-const getCableCount = ({ all, cand, fromDate, toDate }) => {
-    const cableForCand = all
+const getCable = ({ all, cand, fromDate, toDate }) => {
+    return all
         .filter(({ candidate }) => candidate === cand)
         .filter(({ publicdate }) => {
             const date = moment(publicdate);
             return date.isSameOrAfter(fromDate) && date.isSameOrBefore(toDate);
         });
+};
+
+const getCableCount = ({ all, cand, fromDate, toDate }) => {
+    const cableForCand = getCable({ all, cand, fromDate, toDate });
     const total = cableForCand.length;
     const main = cableForCand.filter(({ contributor }) =>
         CABLE_SOURCE_IDS.includes(contributor)
@@ -75,6 +79,19 @@ const getCableCount = ({ all, cand, fromDate, toDate }) => {
     };
 };
 
+const getStationCount = ({ all, cand, source, fromDate, toDate }) => {
+    const cableForCand = getCable({ all, cand, fromDate, toDate });
+    return cableForCand.filter(({ contributor }) => contributor === source)
+        .length;
+};
+
+const getOtherStationCount = ({ all, cand, fromDate, toDate }) => {
+    const cableForCand = getCable({ all, cand, fromDate, toDate });
+    return cableForCand.filter(
+        ({ contributor }) => !CABLE_SOURCE_IDS.includes(contributor)
+    ).length;
+};
+
 const getDigitalCount = ({ all, cand, fromDate, toDate }) => {
     return all
         .filter(({ candidate }) => candidate === cand)
@@ -82,21 +99,6 @@ const getDigitalCount = ({ all, cand, fromDate, toDate }) => {
             const date = moment(datePublished);
             return date.isSameOrAfter(fromDate) && date.isSameOrBefore(toDate);
         }).length;
-};
-
-const getMentionsPerStation = ({ all, source, fromDate, toDate }) => {
-    const yangMentions = _.filter(all, { candidate: "yang" });
-    return _.mapValues(CABLE_SOURCES, ({ id }) =>
-        _(yangMentions)
-            .filter({ contributor: id })
-            .filter(({ publicdate }) => {
-                const date = moment(publicdate);
-                return (
-                    date.isSameOrAfter(fromDate) && date.isSameOrBefore(toDate)
-                );
-            })
-            .size()
-    )[source];
 };
 
 const cableSourceCaption = yangQuery => (
@@ -179,9 +181,9 @@ const MentionsTable = ({ allCable }) => {
 
             return {
                 candidate: name,
-                two: two.main,
-                one: one.main,
-                diff: diff.main,
+                two: two.total,
+                one: one.total,
+                diff: diff.total,
             };
         })
         .orderBy(["one"], ["desc"])
@@ -194,9 +196,7 @@ const MentionsTable = ({ allCable }) => {
             caption={
                 <>
                     {cableSourceCaption()}, where "candidates" is replaced with
-                    the following for each candidate - {candidateQueries}. The
-                    results only include the following sources:{" "}
-                    {CABLE_SOURCE_IDS.join(", ")}
+                    the following for each candidate - {candidateQueries}.
                 </>
             }
         />
@@ -241,19 +241,21 @@ const MentionsPerStationTable = ({ allCable }) => {
         },
     ];
 
-    const data = _(CABLE_SOURCES)
+    const trackedStations = _(CABLE_SOURCES)
         .keys()
         .map(source => {
-            const { name } = CABLE_SOURCES[source];
-            const two = getMentionsPerStation({
+            const { id, name } = CABLE_SOURCES[source];
+            const two = getStationCount({
                 all: allCable.nodes,
-                source,
+                cand: "yang",
+                source: id,
                 fromDate: twoWeeksAgo(),
                 toDate: oneWeekAgo(),
             });
-            const one = getMentionsPerStation({
+            const one = getStationCount({
                 all: allCable.nodes,
-                source,
+                cand: "yang",
+                source: id,
                 fromDate: oneWeekAgo(),
                 toDate: now(),
             });
@@ -269,16 +271,36 @@ const MentionsPerStationTable = ({ allCable }) => {
         .orderBy(["one"], ["desc"])
         .value();
 
+    const otherTwo = getOtherStationCount({
+        all: allCable.nodes,
+        cand: "yang",
+        fromDate: twoWeeksAgo(),
+        toDate: oneWeekAgo(),
+    });
+
+    const otherOne = getOtherStationCount({
+        all: allCable.nodes,
+        cand: "yang",
+        fromDate: oneWeekAgo(),
+        toDate: now(),
+    });
+
+    const otherStations = {
+        source: "Other",
+        two: otherTwo,
+        one: otherOne,
+        diff: otherOne - otherTwo,
+    };
+
+    const data = [...trackedStations, otherStations];
+
+    console.log("data :", data);
+
     return (
         <Table
             columns={columns}
             data={React.useMemo(() => data, [data])}
-            caption={
-                <>
-                    {cableSourceCaption(true)}. The results are filtered to only
-                    include sources from {CABLE_SOURCE_IDS.join(", ")}.
-                </>
-            }
+            caption={<>{cableSourceCaption(true)}</>}
         />
     );
 };
