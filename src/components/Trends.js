@@ -2,7 +2,6 @@ import React from "react";
 import { useStaticQuery, graphql } from "gatsby";
 import styled from "@emotion/styled";
 import _ from "lodash";
-import moment from "moment";
 
 import Header from "src/components/Header";
 import Margin from "src/components/Margin";
@@ -19,6 +18,7 @@ import {
     isEarlyState,
     isPollOfficial,
     getYangPolls,
+    moment,
 } from "src/util";
 import { CANDIDATES, CABLE_SOURCES, CABLE_SOURCE_IDS } from "src/constants";
 

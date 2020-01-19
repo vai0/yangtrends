@@ -1,7 +1,9 @@
-const moment = require("moment");
+const momentLib = require("moment-timezone");
 const _ = require("lodash");
 
 const { OFFICIAL_POLLS, EARLY_STATES, CANDIDATES } = require("./constants");
+
+const moment = (...args) => momentLib(...args).tz("America/New_York");
 
 const formatDate = (date, parseFormat) =>
     moment(date).format("YYYY-MM-DD", parseFormat);
@@ -16,9 +18,19 @@ const formatDateRange = (fromDate, toDate, parseFormat = "YYYY-MM-DD") => {
     return `${from} - ${to}`;
 };
 
-const now = () => formatDate(moment());
-const oneWeekAgo = () => `${formatDate(moment().subtract(7, "d"))}T00:00:00Z`;
-const twoWeeksAgo = () => `${formatDate(moment().subtract(14, "d"))}T00:00:00Z`;
+const now = () => formatDate(moment().utc());
+const oneWeekAgo = () =>
+    `${formatDate(
+        moment()
+            .utc()
+            .subtract(7, "d")
+    )}T00:00:00Z`;
+const twoWeeksAgo = () =>
+    `${formatDate(
+        moment()
+            .utc()
+            .subtract(14, "d")
+    )}T00:00:00Z`;
 
 const getYangPolls = polls =>
     _(polls)
@@ -75,4 +87,5 @@ module.exports = {
     isPollAboveThreshold,
     isEarlyState,
     getYangPolls,
+    moment,
 };
