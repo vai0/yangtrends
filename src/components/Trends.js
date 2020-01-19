@@ -189,6 +189,8 @@ const MentionsTable = ({ allCable }) => {
         .orderBy(["one"], ["desc"])
         .value();
 
+    console.log("mentionsTable :", data);
+
     return (
         <Table
             columns={columns}
@@ -294,7 +296,7 @@ const MentionsPerStationTable = ({ allCable }) => {
 
     const data = [...trackedStations, otherStations];
 
-    console.log("data :", data);
+    console.log("mentionsPerStation :", data);
 
     return (
         <Table
@@ -376,6 +378,8 @@ const ArticlesTable = ({ allArticles }) => {
         })
         .orderBy(["one"], ["desc"])
         .value();
+
+    console.log("articlesTable :", data);
 
     return (
         <Table
@@ -486,6 +490,8 @@ const PollAveragesTable = ({ allPolls }) => {
         .reverse()
         .value();
 
+    console.log("pollsTable :", invertedData);
+
     return (
         <Table
             columns={columns}
@@ -496,6 +502,10 @@ const PollAveragesTable = ({ allPolls }) => {
 };
 
 const Trends = () => {
+    console.log("twoWeeksAgo() :", twoWeeksAgo());
+    console.log("oneWeekAgo() :", oneWeekAgo());
+    console.log("now() :", now());
+
     const {
         allCableType,
         allArticleType,
