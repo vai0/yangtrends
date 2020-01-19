@@ -57,7 +57,9 @@ const isPollAboveThreshold = ({ pct }, earlyState) => {
 };
 
 const isPollQualifying = (poll, earlyState = false) =>
-    isPollOfficial(poll) && isPollAboveThreshold(poll, earlyState);
+    isPollOfficial(poll) &&
+    isPollAboveThreshold(poll, earlyState) &&
+    poll.state.toLowerCase() !== "iowa";
 
 const isEarlyState = state => EARLY_STATES.includes(state);
 

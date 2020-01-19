@@ -22,8 +22,8 @@ import { below } from "src/styles";
 const RAW_DATE_FORMAT = "M/D/YY H:mm";
 
 const POLL_DATES = {
-    start: moment("11/14/19 0:00", RAW_DATE_FORMAT),
-    end: moment("1/10/20 23:59", RAW_DATE_FORMAT),
+    start: moment("12/13/19 0:00", RAW_DATE_FORMAT),
+    end: moment("02/06/20 23:59", RAW_DATE_FORMAT),
 };
 
 const S = {};
@@ -41,15 +41,21 @@ S.Polls = styled.div`
 const sortPolls = polls => {
     const qualifyingPolls = _(polls)
         .filter("qualifying")
-        .orderBy(({ endDate }) => moment(endDate, "MM/DD/YY").unix(), ["desc"])
+        .orderBy(({ createdAt }) => moment(createdAt, "MM/DD/YY").unix(), [
+            "desc",
+        ])
         .value();
     const officialPolls = _(polls)
         .filter(({ official, qualifying }) => !qualifying && official)
-        .orderBy(({ endDate }) => moment(endDate, "MM/DD/YY").unix(), ["desc"])
+        .orderBy(({ createdAt }) => moment(createdAt, "MM/DD/YY").unix(), [
+            "desc",
+        ])
         .value();
     const unofficial = _(polls)
         .filter(({ official, qualifying }) => !official && !qualifying)
-        .orderBy(({ endDate }) => moment(endDate, "MM/DD/YY").unix(), ["desc"])
+        .orderBy(({ createdAt }) => moment(createdAt, "MM/DD/YY").unix(), [
+            "desc",
+        ])
         .value();
     return [...qualifyingPolls, ...officialPolls, ...unofficial];
 };
@@ -84,8 +90,8 @@ const DebatePolls = () => {
 
     const cleanedPolls = getYangPolls(allPrimaryPollsCsv.nodes);
     const allPolls = _(cleanedPolls)
-        .filter(({ endDate }) => {
-            const date = moment(endDate, RAW_DATE_FORMAT);
+        .filter(({ createdAt }) => {
+            const date = moment(createdAt, RAW_DATE_FORMAT);
             const { start, end } = POLL_DATES;
             return date.isSameOrAfter(start) && date.isSameOrBefore(end);
         })
@@ -109,12 +115,17 @@ const DebatePolls = () => {
     return (
         <Section>
             <Margin bottom="small">
-                <Header type="h2">January Debate Polling Qualifications</Header>
+                <Header type="h2">February Debate Poll Requirements</Header>
             </Margin>
             <Margin bottom="small">
-                <Header type="h3">
-                    Two official early state polls 7% or more
-                </Header>
+                <Margin bottom="smallx">
+                    <Header type="h3">
+                        Two official early state polls 7% or more
+                    </Header>
+                </Margin>
+                <Text type="p1" center>
+                    (Iowa excluded)
+                </Text>
             </Margin>
             <S.Polls>
                 {earlyStatePollsSorted.map(poll => (
@@ -127,9 +138,12 @@ const DebatePolls = () => {
                 </Header>
             </Margin>
             <Margin bottom="small">
-                <Header type="h3">
-                    Any four official state polls 5% or more
-                </Header>
+                <Margin bottom="smallx">
+                    <Header type="h3">Four official polls 5% or more</Header>
+                </Margin>
+                <Text type="p1" center>
+                    (Iowa excluded)
+                </Text>
             </Margin>
             <Margin bottom="medium">
                 <S.Polls>
@@ -139,11 +153,11 @@ const DebatePolls = () => {
                 </S.Polls>
             </Margin>
             <Margin bottom="smallx">
-                <MaxWidth value="500px">
+                <MaxWidth value="600px">
                     <Text type="p1">
                         Polls must be released between{" "}
                         {POLL_DATES.start.format("MMM Do, YYYY")} and{" "}
-                        {POLL_DATES.end.format("MMM Do, YYYY")}
+                        {POLL_DATES.end.format("MMM Do, YYYY")} 11:59 ET
                     </Text>
                 </MaxWidth>
             </Margin>

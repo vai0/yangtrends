@@ -6,10 +6,10 @@ import { css } from "@emotion/core";
 import colors from "src/colors";
 import { below } from "src/styles";
 
-const sharedStyles = () => css`
+const sharedStyles = ({ center }) => css`
     font-family: Roboto, sans-serif;
     line-height: 1.4;
-    text-align: left;
+    text-align: ${center ? "center" : "left"};
     margin: 0;
 `;
 
@@ -33,7 +33,7 @@ const P1 = styled.p`
     }
 `;
 
-const Header = ({ type, children }) => {
+const Header = ({ type, children, center }) => {
     let Component;
     if (type === "caption") {
         Component = Caption;
@@ -41,12 +41,13 @@ const Header = ({ type, children }) => {
         Component = P1;
     }
 
-    return <Component>{children}</Component>;
+    return <Component center={center}>{children}</Component>;
 };
 
 Header.propTypes = {
     type: PropTypes.oneOf(["p1", "caption"]).isRequired,
     children: PropTypes.node.isRequired,
+    center: PropTypes.bool,
 };
 
 export default Header;

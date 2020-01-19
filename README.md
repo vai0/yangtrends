@@ -11,3 +11,7 @@ TODO:
 --- nevada
 --- south carolina
 - add graphs for each one
+- twitter
+--- retweets
+--- new followers
+--- total followers
