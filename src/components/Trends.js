@@ -502,6 +502,10 @@ const PollAveragesTable = ({ allPolls }) => {
 };
 
 const Trends = () => {
+    console.log("twoWeeksAgo() :", twoWeeksAgo());
+    console.log("oneWeekAgo() :", oneWeekAgo());
+    console.log("now() :", now());
+
     const {
         allCableType,
         allArticleType,
