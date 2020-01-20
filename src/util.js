@@ -5,9 +5,6 @@ const { OFFICIAL_POLLS, EARLY_STATES, CANDIDATES } = require("./constants");
 
 const moment = (...args) => momentLib(...args).tz("America/New_York");
 
-const formatDate = (date, parseFormat) =>
-    moment(date).format("YYYY-MM-DD", parseFormat);
-
 const formatDateShort = date => moment(date).format("MM/DD");
 
 const formatDateRange = (fromDate, toDate, parseFormat = "YYYY-MM-DD") => {
@@ -17,9 +14,13 @@ const formatDateRange = (fromDate, toDate, parseFormat = "YYYY-MM-DD") => {
     return `${from} - ${to}`;
 };
 
-const NOW = formatDate(moment());
-const ONE_WEEK_AGO = `${formatDate(moment().subtract(7, "d"))}`;
-const TWO_WEEKS_AGO = `${formatDate(moment().subtract(14, "d"))}`;
+const NOW = moment().format();
+const ONE_WEEK_AGO = moment()
+    .subtract(7, "d")
+    .format();
+const TWO_WEEKS_AGO = moment()
+    .subtract(14, "d")
+    .format();
 
 const getYangPolls = polls =>
     _(polls)
@@ -65,7 +66,6 @@ const isPollQualifying = (poll, earlyState = false) =>
 const isEarlyState = state => EARLY_STATES.includes(state);
 
 module.exports = {
-    formatDate,
     formatDateShort,
     formatDateRange,
     NOW,
