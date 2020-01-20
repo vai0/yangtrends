@@ -15,8 +15,12 @@ const formatDateRange = (fromDate, toDate, parseFormat = "YYYY-MM-DD") => {
 };
 
 const NOW = moment("2020-01-19T23:59:59-05:00").format();
-const ONE_WEEK_AGO = NOW.subtract(7, "d").format();
-const TWO_WEEKS_AGO = NOW.subtract(14, "d").format();
+const ONE_WEEK_AGO = moment(NOW)
+    .subtract(7, "d")
+    .format();
+const TWO_WEEKS_AGO = moment(NOW)
+    .subtract(14, "d")
+    .format();
 
 const getYangPolls = polls =>
     _(polls)
