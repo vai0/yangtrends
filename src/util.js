@@ -8,8 +8,7 @@ const moment = (...args) => momentLib(...args).tz("America/New_York");
 const formatDate = (date, parseFormat) =>
     moment(date).format("YYYY-MM-DD", parseFormat);
 
-const formatDateShort = (date, parseFormat) =>
-    moment(date).format("MM/DD", parseFormat);
+const formatDateShort = date => moment(date).format("MM/DD");
 
 const formatDateRange = (fromDate, toDate, parseFormat = "YYYY-MM-DD") => {
     const format = "MM/DD";
@@ -19,8 +18,8 @@ const formatDateRange = (fromDate, toDate, parseFormat = "YYYY-MM-DD") => {
 };
 
 const NOW = formatDate(moment());
-const ONE_WEEK_AGO = `${formatDate(moment().subtract(7, "d"))}T00:00:00Z`;
-const TWO_WEEKS_AGO = `${formatDate(moment().subtract(14, "d"))}T00:00:00Z`;
+const ONE_WEEK_AGO = `${formatDate(moment().subtract(7, "d"))}`;
+const TWO_WEEKS_AGO = `${formatDate(moment().subtract(14, "d"))}`;
 
 const getYangPolls = polls =>
     _(polls)
