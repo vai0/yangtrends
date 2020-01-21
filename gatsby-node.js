@@ -171,21 +171,6 @@ exports.sourceNodes = async ({
     try {
         // Articles
         const allArticles = await getNewsForAllCandidates(getArticles);
-        allArticles.forEach(article => {
-            const articleNodeMeta = {
-                id: createNodeId(`${article.candidate}${article.url}`),
-                parent: null,
-                children: [],
-                internal: {
-                    type: "ArticleType",
-                    mediaType: "application/json",
-                    content: JSON.stringify(article),
-                    contentDigest: createContentDigest(article),
-                },
-            };
-            createNode({ ...article, ...articleNodeMeta });
-        });
-
         const articleTableData = getDigital(allArticles);
         articleTableData.forEach(row => {
             const articleTableRowNodeMeta = {
@@ -204,21 +189,6 @@ exports.sourceNodes = async ({
 
         // Cable TV mentions
         const allCable = await getNewsForAllCandidates(getCable);
-        allCable.forEach(cable => {
-            const cableNodeMeta = {
-                id: createNodeId(`${cable.candidate}${cable.identifier}`),
-                parent: null,
-                children: [],
-                internal: {
-                    type: "CableType",
-                    mediaType: "application/json",
-                    content: JSON.stringify(cable),
-                    contentDigest: createContentDigest(cable),
-                },
-            };
-            createNode({ ...cable, ...cableNodeMeta });
-        });
-
         const stationMentionTableData = getStationMentions(allCable);
         stationMentionTableData.forEach(row => {
             const stationMentionTableRowNodeMeta = {
