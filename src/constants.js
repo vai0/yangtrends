@@ -1,4 +1,5 @@
 const _ = require("lodash");
+const path = require("path");
 
 const CONTEXTUAL_SEARCH_NEWS_ENDPOINT =
     "https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/Search/NewsSearchAPI";
@@ -11,48 +12,48 @@ const POLLSTER_CSV_URL =
     "https://raw.githubusercontent.com/fivethirtyeight/data/master/pollster-ratings/pollster-ratings.csv";
 
 const CANDIDATES = {
-    bernie: {
-        name: "Bernie Sanders",
-        q: `"bernie sanders"`,
-        fecId: "P60007168",
-        pollId: "13257",
-    },
-    biden: {
-        name: "Joe Biden",
-        q: `"joe biden"`,
-        fecId: "P80000722",
-        pollId: "13256",
-    },
-    bloomberg: {
-        name: "Mike Bloomberg",
-        q: `"mike bloomberg"`,
-        fecId: "P00014530",
-        pollId: "13289",
-    },
-    klobuchar: {
-        name: "Amy Klobuchar",
-        q: `"amy klobuchar"`,
-        fecId: "P80006117",
-        pollId: "13310",
-    },
-    pete: {
-        name: "Pete Buttigieg",
-        q: `"buttigieg"`,
-        fecId: "P00010298",
-        pollId: "13345",
-    },
-    steyer: {
-        name: "Tom Steyer",
-        q: `"tom steyer"`,
-        fecId: "P00012716",
-        pollId: "13327",
-    },
-    warren: {
-        name: "Elizabeth Warren",
-        q: `"elizabeth warren"`,
-        fecId: "P00009621",
-        pollId: "13258",
-    },
+    // bernie: {
+    //     name: "Bernie Sanders",
+    //     q: `"bernie sanders"`,
+    //     fecId: "P60007168",
+    //     pollId: "13257",
+    // },
+    // biden: {
+    //     name: "Joe Biden",
+    //     q: `"joe biden"`,
+    //     fecId: "P80000722",
+    //     pollId: "13256",
+    // },
+    // bloomberg: {
+    //     name: "Mike Bloomberg",
+    //     q: `"mike bloomberg"`,
+    //     fecId: "P00014530",
+    //     pollId: "13289",
+    // },
+    // klobuchar: {
+    //     name: "Amy Klobuchar",
+    //     q: `"amy klobuchar"`,
+    //     fecId: "P80006117",
+    //     pollId: "13310",
+    // },
+    // pete: {
+    //     name: "Pete Buttigieg",
+    //     q: `"buttigieg"`,
+    //     fecId: "P00010298",
+    //     pollId: "13345",
+    // },
+    // steyer: {
+    //     name: "Tom Steyer",
+    //     q: `"tom steyer"`,
+    //     fecId: "P00012716",
+    //     pollId: "13327",
+    // },
+    // warren: {
+    //     name: "Elizabeth Warren",
+    //     q: `"elizabeth warren"`,
+    //     fecId: "P00009621",
+    //     pollId: "13258",
+    // },
     yang: {
         name: "Andrew Yang",
         q: `"andrew yang"`,
@@ -82,7 +83,7 @@ const CABLE_SOURCES = {
 
 const CABLE_SOURCE_IDS = _.map(
     CABLE_SOURCES,
-    (val, key) => CABLE_SOURCES[key].id
+    (__, key) => CABLE_SOURCES[key].id
 );
 
 const ARTICLE_SOURCES = [
@@ -155,6 +156,23 @@ const OFFICIAL_POLLS = [
 
 const EARLY_STATES = ["Iowa", "New Hampshire", "Nevada", "South Carolina"];
 
+const MONTHS = [
+    { month: 3, year: 2019 },
+    { month: 4, year: 2019 },
+    { month: 5, year: 2019 },
+    { month: 6, year: 2019 },
+    { month: 7, year: 2019 },
+    { month: 8, year: 2019 },
+    { month: 9, year: 2019 },
+    { month: 10, year: 2019 },
+    { month: 11, year: 2019 },
+    { month: 0, year: 2020 },
+];
+
+const CONTENT_DIR_POLLS = path.resolve(__dirname, "../src/content/polls");
+const FILENAME_PRIMARY_POLLS = "primary-polls.csv";
+const FILENAME_POLLSTER = "pollsters.csv";
+
 module.exports = {
     CONTEXTUAL_SEARCH_NEWS_ENDPOINT,
     INTERNET_ARCHIVE_ENDPOINT,
@@ -167,4 +185,8 @@ module.exports = {
     ARTICLE_SOURCES,
     OFFICIAL_POLLS,
     EARLY_STATES,
+    MONTHS,
+    CONTENT_DIR_POLLS,
+    FILENAME_PRIMARY_POLLS,
+    FILENAME_POLLSTER,
 };

@@ -13,6 +13,12 @@ const {
     BING_NEWS_ENDPOINT,
 } = require("./src/constants");
 const { NOW, TWO_WEEKS_AGO } = require("./src/util");
+const {
+    getDigital,
+    getStationMentions,
+    getCableMentions,
+    getPollAverages,
+} = require("./src/trends-data");
 
 const paramsSerializer = params =>
     qs.stringify(params, { arrayFormat: "bracket" });
@@ -180,6 +186,22 @@ exports.sourceNodes = async ({
             createNode({ ...article, ...articleNodeMeta });
         });
 
+        const articleTableData = getDigital(allArticles);
+        articleTableData.forEach(row => {
+            const articleTableRowNodeMeta = {
+                id: createNodeId(`${row.candidate}${row.two}${row.one}`),
+                parent: null,
+                children: [],
+                internal: {
+                    type: "ArticleTableRowType",
+                    mediaType: "application/json",
+                    content: JSON.stringify(row),
+                    contentDigest: createContentDigest(row),
+                },
+            };
+            createNode({ ...row, ...articleTableRowNodeMeta });
+        });
+
         // Cable TV mentions
         const allCable = await getNewsForAllCandidates(getCable);
         allCable.forEach(cable => {
@@ -195,6 +217,38 @@ exports.sourceNodes = async ({
                 },
             };
             createNode({ ...cable, ...cableNodeMeta });
+        });
+
+        const stationMentionTableData = getStationMentions(allCable);
+        stationMentionTableData.forEach(row => {
+            const stationMentionTableRowNodeMeta = {
+                id: createNodeId(`${row.source}${row.two}${row.one}`),
+                parent: null,
+                children: [],
+                internal: {
+                    type: "StationMentionRowType",
+                    mediaType: "application/json",
+                    content: JSON.stringify(row),
+                    contentDigest: createContentDigest(row),
+                },
+            };
+            createNode({ ...row, ...stationMentionTableRowNodeMeta });
+        });
+
+        const cableMentionsTableData = getCableMentions(allCable);
+        cableMentionsTableData.forEach(row => {
+            const cableMentionTableRowNodeMeta = {
+                id: createNodeId(`${row.candidate}${row.two}${row.one}`),
+                parent: null,
+                children: [],
+                internal: {
+                    type: "CableMentionRowType",
+                    mediaType: "application/json",
+                    content: JSON.stringify(row),
+                    contentDigest: createContentDigest(row),
+                },
+            };
+            createNode({ ...row, ...cableMentionTableRowNodeMeta });
         });
 
         // Headline articles
@@ -229,6 +283,23 @@ exports.sourceNodes = async ({
                 },
             };
             createNode({ ...financial, ...financialNodeMeta });
+        });
+
+        // Poll averages
+        const pollAveragesTableData = await getPollAverages();
+        pollAveragesTableData.forEach(row => {
+            const pollAverageTableNodeMeta = {
+                id: createNodeId(`${row.period}`),
+                parent: null,
+                children: [],
+                internal: {
+                    type: "PollAverageRowType",
+                    mediaType: "application/json",
+                    content: JSON.stringify(row),
+                    contentDigest: createContentDigest(row),
+                },
+            };
+            createNode({ ...row, ...pollAverageTableNodeMeta });
         });
     } catch (err) {
         console.log("ERROR", err);

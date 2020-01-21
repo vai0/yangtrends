@@ -12,6 +12,7 @@
     "@fortawesome/react-fontawesome": "0.1.8",
     "axios": "0.19.0",
     "classnames": "2.2.6",
+    "csv-parser": "2.3.2",
     "download-to-file": "2.1.0",
     "emotion-normalize": "10.1.0",
     "gatsby": "2.18.12",
