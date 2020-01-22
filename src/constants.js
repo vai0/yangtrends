@@ -166,7 +166,8 @@ const MONTHS = [
     { month: 9, year: 2019 },
     { month: 10, year: 2019 },
     { month: 11, year: 2019 },
-    { month: 0, year: 2020 },
+    { month: 12, year: 2019 },
+    { month: 1, year: 2020 },
 ];
 
 const CONTENT_DIR_POLLS = path.resolve(__dirname, "../src/content/polls");
