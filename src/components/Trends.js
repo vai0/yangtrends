@@ -89,8 +89,6 @@ const MentionsTable = ({ data }) => {
         []
     );
 
-    console.log("mentionsTable :", data);
-
     return (
         <Table
             columns={columns}
@@ -142,8 +140,6 @@ const MentionsPerStationTable = ({ data }) => {
             ],
         },
     ];
-
-    console.log("mentionsPerStation :", data);
 
     return (
         <Table
@@ -197,8 +193,6 @@ const ArticlesTable = ({ data }) => {
         []
     );
 
-    console.log("articlesTable :", data);
-
     return (
         <Table
             columns={columns}
@@ -241,8 +235,6 @@ const PollAveragesTable = ({ data }) => {
         []
     );
 
-    console.log("pollAverages", data);
-
     return (
         <Table
             columns={columns}
@@ -253,10 +245,6 @@ const PollAveragesTable = ({ data }) => {
 };
 
 const Trends = () => {
-    console.log("TWO_WEEKS_AGO :", TWO_WEEKS_AGO);
-    console.log("ONE_WEEK_AGO :", ONE_WEEK_AGO);
-    console.log("NOW :", NOW);
-
     const {
         allPollAverageRowType,
         allCableMentionRowType,
