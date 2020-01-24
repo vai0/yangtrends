@@ -48,8 +48,10 @@ const isPollOfficial = ({ pollsterRatingId, sponsorIds }) =>
             official.pollsterRatingId === "any";
         const sponsorMatches =
             official.sponsorId === "any" ||
-            (official.sponsorId === null && sponsorIds === null) ||
-            (_.isArray(sponsorIds) && sponsorIds.includes(official.sponsorId));
+            official.sponsorId === sponsorIds ||
+            (_.isArray(sponsorIds) &&
+                _.isArray(official.sponsorId) &&
+                _.isEqual(sponsorIds.sort(), official.sponsorId.sort()));
         return pollsterMatches && sponsorMatches;
     });
 

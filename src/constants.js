@@ -152,6 +152,10 @@ const OFFICIAL_POLLS = [
         pollsterRatingId: "323", // Suffolk University
         sponsorId: "135", // USA Today
     },
+    {
+        pollsterRatingId: "183", // Marist College,
+        sponsorId: ["373", "765"], // NPR
+    },
 ];
 
 const EARLY_STATES = ["Iowa", "New Hampshire", "Nevada", "South Carolina"];

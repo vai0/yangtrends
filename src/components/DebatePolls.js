@@ -41,19 +41,19 @@ S.Polls = styled.div`
 const sortPolls = polls => {
     const qualifyingPolls = _(polls)
         .filter("qualifying")
-        .orderBy(({ createdAt }) => moment(createdAt, "MM/DD/YY").unix(), [
+        .orderBy(({ createdAt }) => moment(createdAt, "M/DD/YY HH:mm").unix(), [
             "desc",
         ])
         .value();
     const officialPolls = _(polls)
         .filter(({ official, qualifying }) => !qualifying && official)
-        .orderBy(({ createdAt }) => moment(createdAt, "MM/DD/YY").unix(), [
+        .orderBy(({ createdAt }) => moment(createdAt, "M/DD/YY HH:mm").unix(), [
             "desc",
         ])
         .value();
     const unofficial = _(polls)
         .filter(({ official, qualifying }) => !official && !qualifying)
-        .orderBy(({ createdAt }) => moment(createdAt, "MM/DD/YY").unix(), [
+        .orderBy(({ createdAt }) => moment(createdAt, "M/DD/YY HH:mm").unix(), [
             "desc",
         ])
         .value();
@@ -111,6 +111,8 @@ const DebatePolls = () => {
 
     const allPollsSorted = sortPolls(allPolls);
     const earlyStatePollsSorted = sortPolls(earlyStatePolls);
+
+    console.log("allPollsSorted :", allPollsSorted);
 
     return (
         <Section>
