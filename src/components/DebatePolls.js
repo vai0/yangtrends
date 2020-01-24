@@ -112,8 +112,6 @@ const DebatePolls = () => {
     const allPollsSorted = sortPolls(allPolls);
     const earlyStatePollsSorted = sortPolls(earlyStatePolls);
 
-    console.log("allPollsSorted :", allPollsSorted);
-
     return (
         <Section>
             <Margin bottom="small">
