@@ -14,7 +14,7 @@ const formatDateRange = (fromDate, toDate, parseFormat = "YYYY-MM-DD") => {
     return `${from} - ${to}`;
 };
 
-const NOW = moment("2020-01-30T23:59:59-05:00").format();
+const NOW = moment("2020-02-01T23:59:59-05:00").format();
 const ONE_WEEK_AGO = moment(NOW)
     .subtract(7, "d")
     .format();
