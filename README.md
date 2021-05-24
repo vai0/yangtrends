@@ -1,3 +1,5 @@
+https://www.yangtrends.org/
+
 TODO:
 - split jan debate qualifications into polls and qualification sections
 - build tab component
