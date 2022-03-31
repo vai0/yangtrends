@@ -1,4 +1,4 @@
-Tracking Andrew Yang's presidential run.
+### Tracking Andrew Yang's presidential run.
 
 https://eager-lewin-7a4b31.netlify.app/
 (once hosted at https://www.yangtrends.org/)
