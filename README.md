@@ -1,4 +1,7 @@
-https://www.yangtrends.org/
+Tracking Andrew Yang's presidential run.
+
+https://eager-lewin-7a4b31.netlify.app/
+(once hosted at https://www.yangtrends.org/)
 
 TODO:
 - split jan debate qualifications into polls and qualification sections
